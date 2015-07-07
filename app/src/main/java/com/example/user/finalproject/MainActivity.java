@@ -1,16 +1,11 @@
 package com.example.user.finalproject;
 
-import android.content.res.Resources;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.user.finalproject.Adapters.TabAdapter;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.News;
 import com.example.user.finalproject.model.Product;
@@ -20,79 +15,92 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements  ActionBar.TabListener{
-    private ActionBar actionBar;
-    private ViewPager viewPager;
+public class MainActivity extends ActionBarActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.bar_tabs_activity);
+        setContentView(R.layout.activity_main);
 
-        Resources resources = getResources();
+        DBHelper dbHelper = new DBHelper(this, "FinalProjectDB", 1);
+//        testAddSomeCategories(dbHelper); // ragdan unique adevs ertxel unda gavushvat.
+//        testProduct(dbHelper);
+        testNews(dbHelper);
+    }
 
-        actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    private void testNews(DBHelper dbHelper){
+        News news = new News("aqcia burgerze", "ori hamburgeri ertis pasad");
+        news.setFromDate("2015-08-01");
+        news.setToDate("2015-09-01");
+        try {
+            dbHelper.insertNews(news);
+        } catch (ParseException e) {
+            Log.d("TEST", "incorrect date");
+            return;
+        }
 
-
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//
-//        getSupportActionBar().setCustomView(R.layout.actionbar);
-
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(5);
-
-
-        //Add Tabs
-        actionBar.addTab(actionBar.newTab().setIcon(resources.getDrawable(R.drawable.products))
-                .setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setIcon(resources.getDrawable(R.drawable.menu))
-                .setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setIcon(resources.getDrawable(R.drawable.news))
-                .setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setIcon(resources.getDrawable(R.drawable.profile))
-                .setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setIcon(resources.getDrawable(R.drawable.basket))
-                .setTabListener(this));
+        List<News> newsList = new ArrayList<>();
+        dbHelper.allNews(newsList);
+        for(int i = 0; i < newsList.size(); i++){
+            Log.d("TEST", newsList.get(i).toString());
+        }
+    }
 
 
-        //Add ViewPager listener for changing tabs
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+    private void testProduct(DBHelper dbHelper){
+        Product product = new Product("mozapini", "shokoladit");
+        product.setPrice(2.00);
+        product.setCategoryName("icecream");
+        dbHelper.insertNewProduct(product);
 
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        List<Product> products = new ArrayList<>();
+        dbHelper.allProducts(products);
 
-            }
+        for(int i = 0; i < products.size(); i++){
+            Log.d("TEST", product.toString());
+        }
+    }
 
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
+    private void testAddSomeCategories(DBHelper dbHelper){
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("burgeri");
+        categoryList.add("alkoholuri sasmeli");
+        categoryList.add("nayini");
+        categoryList.add("namcxvari");
+        categoryList.add("sasmeli");
+        categoryList.add("ფუნთუშეული");
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+        for(int i = 0; i < categoryList.size(); i++){
+            dbHelper.insertNewCategory(categoryList.get(i));
+        }
 
-            }
-        });
-
+        categoryList.clear();
+        dbHelper.allCategories(categoryList);
+        for(int i = 0; i < categoryList.size(); i++){
+            Log.d("TEST", "category: " + categoryList.get(i));
+        }
     }
 
 
     @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        viewPager.setCurrentItem(tab.getPosition());
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-    }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
 
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
+        return super.onOptionsItemSelected(item);
     }
 }
