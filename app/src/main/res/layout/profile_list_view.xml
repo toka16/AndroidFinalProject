@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/category_field"
+        android:id="@+id/update_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
@@ -17,12 +17,38 @@
         />
 
     <Button
-        android:id="@+id/go_to_category"
+        android:id="@+id/update_row"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/Margin_From_Button"
         android:text="@string/update_row"
         />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/caution_img"
+            android:layout_marginRight="@dimen/from_caution_image"
+            android:layout_marginLeft="@dimen/from_caution_image2"
+            android:layout_height="@dimen/caution_image_height"
+            android:layout_width="@dimen/caution_image_width"
+            android:src = "@drawable/caution"
+        />
+
+        <TextView
+            android:id="@+id/smth"
+            android:layout_margin="@dimen/contact_list_item_from_image"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:text = "@string/get_information"
+            />
+
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/list_view_for_profile"

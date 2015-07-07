@@ -6,8 +6,11 @@
     <dimen name="Margin_From_Edit_Text">10dp</dimen>
     <dimen name="Margin_From_Button">10dp</dimen>
 
-    <dimen name="caution_image_height">15dp</dimen>
-    <dimen name="caution_image_width">15dp</dimen>
+    <dimen name="caution_image_height">30dp</dimen>
+    <dimen name="caution_image_width">30dp</dimen>
+
+    <dimen name="from_caution_image">10dp</dimen>
+    <dimen name="from_caution_image2">5dp</dimen>
 
     <dimen name="contact_list_item_from_image">5dp</dimen>
 </resources>

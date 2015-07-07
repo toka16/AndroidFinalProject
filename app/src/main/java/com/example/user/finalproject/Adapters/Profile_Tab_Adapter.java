@@ -8,16 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.model.User_Information;
 
 import java.util.ArrayList;
 
 public class Profile_Tab_Adapter extends BaseAdapter {
 
     private Context context;
-    // informationebis arraylist unda gadmoeces uechvlei 
-    private ArrayList<String> information;
+    // informationebis arraylist unda gadmoeces uechvlei
+    private ArrayList<User_Information> information;
 
-    public Profile_Tab_Adapter(Context context,ArrayList<String> arr) {
+    public Profile_Tab_Adapter(Context context,ArrayList<User_Information> arr) {
         this.context = context;
         this.information = arr;
     }
@@ -47,8 +48,8 @@ public class Profile_Tab_Adapter extends BaseAdapter {
             convertView.setTag(h);
         }
         Holder h = (Holder)convertView.getTag();
-        String info = information.get(position);
-        h.txtV.setText(info);
+        User_Information info = information.get(position);
+        h.txtV.setText(info.toString());
         return convertView;
     }
 
