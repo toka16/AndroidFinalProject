@@ -6,9 +6,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.example.user.finalproject.model.News;
 import com.example.user.finalproject.model.Product;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -64,11 +69,14 @@ public class DBHelper extends SQLiteOpenHelper {
             "CONSTRAINT map_menu_unique_const UNIQUE (" + DBTableEntries.MAP_MENU_TABLE_MENU_ID + "," + DBTableEntries.MAP_MENU_TABLE_PRODUCT_ID + ")"
         + " )";
 
-    private SQLiteDatabase db;
+    private static final String NAME = "FinalProjectDB";
+    private static final int VERSION = 3;
+    private SQLiteDatabase db = getWritableDatabase();
 
     public DBHelper(Context context, String name, int version) {
         super(context, name, null, version);
-        db = getWritableDatabase();
+//        db = getWritableDatabase();
+        Log.d("TEST", "constructor-shi shevida");
     }
 
     @Override
@@ -117,7 +125,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // The helper method returns category id by given name.
     private int getAppropriateCategoryID(String categoryName){
         String selectQuery = "select " + DBTableEntries.CATEGORY_ID + " from " + DBTableEntries.CATEGORY_TABLE_NAME +
-                            " where " + DBTableEntries.CATEGORY_NAME + "=" + categoryName;
+                            " where " + DBTableEntries.CATEGORY_NAME + "='" + categoryName + "'";
         Cursor cursor = db.rawQuery(selectQuery, null);
         cursor.moveToFirst();
         int idIndex = cursor.getColumnIndexOrThrow(DBTableEntries.CATEGORY_ID);
@@ -133,12 +141,59 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(DBTableEntries.CATEGORY_TABLE_NAME, null, values);
     }
 
-    //
-//    public
+    // The method adds news into database.
+    public void insertNews(News news) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = dateFormat.parse(news.getFromDate());
+        Date toDate = dateFormat.parse(news.getToDate());
+
+        ContentValues values = new ContentValues();
+        values.put(DBTableEntries.NEWS_NAME, news.getName());
+        values.put(DBTableEntries.NEWS_DESCRIPTION, news.getDescription());
+        values.put(DBTableEntries.NEWS_FROM_DATE, dateFormat.format(fromDate));
+        values.put(DBTableEntries.NEWS_TO_DATE, dateFormat.format(toDate));
+
+        db.insert(DBTableEntries.NEWS_TABLE_NAME, null, values);
+    }
 
 
+    // The method fills a given news list by news.
+    public void allNews(List<News> newses){
+        String selectQuery = "select * from " + DBTableEntries.NEWS_TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-    //
+        int nameIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_NAME);
+        int descriptionIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_DESCRIPTION);
+        int fromDateIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_FROM_DATE);
+        int toDateIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_TO_DATE);
+        while(cursor.moveToNext()){
+            String name = cursor.getString(nameIndex);
+            String description = cursor.getString(descriptionIndex);
+            String fromDate = cursor.getString(fromDateIndex);
+            String toDate = cursor.getString(toDateIndex);
+
+            News news = new News(name, description);
+            news.setFromDate(fromDate);
+            news.setToDate(toDate);
+
+            newses.add(news);
+        }
+    }
+
+
+    // The method fills a given list by all categories.
+    public void allCategories(List<String> categoryList){
+        String selectQuery = "select " + DBTableEntries.CATEGORY_NAME + " from " + DBTableEntries.CATEGORY_TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int nameIndex = cursor.getColumnIndexOrThrow(DBTableEntries.CATEGORY_NAME);
+        while(cursor.moveToNext()){
+            String name = cursor.getString(nameIndex);
+            categoryList.add(name);
+        }
+    }
+
+    // The method fills a given list by all products.
     public void allProducts(List<Product> productList){
         String selectQuery = "select * from " + DBTableEntries.PRODUCT_TABLE_NAME;
         Cursor cursor = db.rawQuery(selectQuery, null);
