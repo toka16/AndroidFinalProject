@@ -123,7 +123,7 @@ public class Profile_Fragment extends Fragment {
                 }
             }
         });
-        // aq kidev damchirdeba buttonze listeneris damateba
+
 
         return view;
     }

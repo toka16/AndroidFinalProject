@@ -5,31 +5,29 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.user.finalproject.R;
-import com.example.user.finalproject.model.User_Information;
-
+import com.example.user.finalproject.model.Product;
 import java.util.ArrayList;
 
-public class Profile_Tab_Adapter extends BaseAdapter {
+public class Product_Tab_Adapter extends BaseAdapter{
 
     private Context context;
-    private ArrayList<User_Information> information;
+    private ArrayList<Product> products;
 
-    public Profile_Tab_Adapter(Context context,ArrayList<User_Information> arr) {
+    public Product_Tab_Adapter(Context context, ArrayList<Product> arr) {
         this.context = context;
-        this.information = arr;
+        this.products = arr;
     }
-
     @Override
     public int getCount() {
-        return information.size();
+        return products.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return information.get(position);
+        return products.get(position);
     }
 
     @Override
@@ -40,20 +38,23 @@ public class Profile_Tab_Adapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.profile_list_view_item, null);
+            convertView = View.inflate(context, R.layout.product_list_view_item, null);
             Holder h = new Holder();
 
-            h.txtV = (TextView)convertView.findViewById(R.id.profile_text);
+            h.txtV = (TextView)convertView.findViewById(R.id.product_text);
+            // aqve suratis setic unda gauketo
             convertView.setTag(h);
         }
         Holder h = (Holder)convertView.getTag();
-        User_Information info = information.get(position);
-        h.txtV.setText(info.toString());
+        Product info = products.get(position);
+        h.txtV.setText(info.getName());
+        //aqac suratis set imis mixedvit rogorc manuka gaaketebs
+        //h.img.setImageBitmap(info);
         return convertView;
     }
 
-
     public static class Holder {
         TextView txtV;
+        ImageView img;
     }
 }
