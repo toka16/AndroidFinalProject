@@ -5,13 +5,24 @@ public class Product {
     private String name;
     private String description;
     private double price;
-    private String category;
+    private String image_link;
+
     private long db_ID;
     private int server_ID;
 
     public Product(String name, String description){
         this.name = name;
         this.description = description;
+    }
+
+    public Product(){}
+
+    public String getImage_link() {
+        return image_link;
+    }
+
+    public void setImage_link(String image_link) {
+        this.image_link = image_link;
     }
 
     public long getDb_ID(){
@@ -52,14 +63,6 @@ public class Product {
 
     public double getPrice(){
         return price;
-    }
-
-    public void setCategoryName(String category){
-        this.category = category;
-    }
-
-    public String getCategoryName(){
-        return category;
     }
 
     public String toString(){

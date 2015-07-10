@@ -13,6 +13,7 @@ public class News {
         this.name = name;
         this.description = description;
     }
+    public News(){}
 
     public long getDb_ID(){
         return this.db_ID;

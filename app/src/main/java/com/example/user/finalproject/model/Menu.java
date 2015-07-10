@@ -7,6 +7,8 @@ public class Menu {
     private String name;
     private String description;
     private double price;
+    private String image_link;
+
     private long db_ID;
     private int server_ID;
     private ArrayList<Product> products;
@@ -14,6 +16,16 @@ public class Menu {
     public Menu(String name){
         this.name = name;
         products = new ArrayList<>();
+    }
+    public Menu(){}
+
+
+    public String getImage_link() {
+        return image_link;
+    }
+
+    public void setImage_link(String image_link) {
+        this.image_link = image_link;
     }
 
     public ArrayList<Product> getProducts(){
