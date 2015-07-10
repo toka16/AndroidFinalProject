@@ -211,111 +211,83 @@ public class ServerHelper {
     }
 
     public static ArrayList<Category> parseCategoryArray(JSONArray arr){
-        try {
-            ArrayList<Category> categories = new ArrayList<>();
-            for(int i=0; i<arr.length(); i++){
-                categories.add(parseCategory(arr.getJSONObject(i)));
-            }
-            return categories;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        ArrayList<Category> categories = new ArrayList<>();
+        for(int i=0; i<arr.length(); i++){
+            categories.add(parseCategory(arr.optJSONObject(i)));
         }
-        return null;
+        return categories;
     }
 
     public static Category parseCategory(JSONObject obj){
-        try {
-            Category category = new Category();
-            category.setServer_ID(obj.getInt("id"));
-            category.setName(obj.getString("name"));
-            return category;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+        Category category = new Category();
+        category.setServer_ID(obj.optInt("id"));
+        category.setName(obj.optString("name"));
+        int[] ids = parseIntArray(obj.optJSONArray("products"));
+        //category.setProducts(db.getProducts(ids));
+
+        return category;
     }
 
     public static ArrayList<News> parseNewsArray(JSONArray arr){
-        try {
-            ArrayList<News> newses = new ArrayList<>();
-            for(int i=0; i<arr.length(); i++){
-                newses.add(parseNews(arr.getJSONObject(i)));
-            }
-            return newses;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        ArrayList<News> newses = new ArrayList<>();
+        for(int i=0; i<arr.length(); i++){
+            newses.add(parseNews(arr.optJSONObject(i)));
         }
-        return null;
+        return newses;
     }
 
     public static News parseNews(JSONObject obj){
-        try {
-            News news = new News();
-            news.setServer_ID(obj.getInt("id"));
-            news.setName(obj.getString("name"));
-            news.setDescription(obj.getString("description"));
-            news.setFromDate(new Date(obj.getLong("from_date")).toString());
-            news.setToDate(new Date(obj.getLong("to_date")).toString());
-            return news;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+        News news = new News();
+        news.setServer_ID(obj.optInt("id"));
+        news.setName(obj.optString("name"));
+        news.setDescription(obj.optString("description"));
+        news.setFromDate(new Date(obj.optLong("from_date")).toString());
+        news.setToDate(new Date(obj.optLong("to_date")).toString());
+        return news;
     }
 
     public static ArrayList<Menu> parseMenuArray(JSONArray arr){
-        try {
-            ArrayList<Menu> menus = new ArrayList<>();
-            for(int i=0; i<arr.length(); i++){
-                menus.add(parseMenu(arr.getJSONObject(i)));
-            }
-            return menus;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        ArrayList<Menu> menus = new ArrayList<>();
+        for(int i=0; i<arr.length(); i++){
+            menus.add(parseMenu(arr.optJSONObject(i)));
         }
-        return null;
-    }
+        return menus;
+}
 
     public static Menu parseMenu(JSONObject obj){
-        try {
-            Menu menu = new Menu();
-            menu.setServer_ID(obj.getInt("id"));
-            menu.setName(obj.getString("name"));
-            menu.setDescription(obj.getString("description"));
-            menu.setPrice(obj.getDouble("price"));
-            menu.setProducts(parseProductArray(obj.getJSONArray("products")));
-            return menu;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+        Menu menu = new Menu();
+        menu.setServer_ID(obj.optInt("id"));
+        menu.setName(obj.optString("name"));
+        menu.setDescription(obj.optString("description"));
+        menu.setPrice(obj.optDouble("price"));
+        int[] ids = parseIntArray(obj.optJSONArray("products"));
+//      menu.setProducts(db.getProducts(ids));
+        return menu;
     }
 
     public static ArrayList<Product> parseProductArray(JSONArray arr){
-        try {
-            ArrayList<Product> products = new ArrayList<>();
-            for(int i=0; i<arr.length(); i++){
-                products.add(parseProduct(arr.getJSONObject(i)));
-            }
-            return products;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        ArrayList<Product> products = new ArrayList<>();
+        for(int i=0; i<arr.length(); i++){
+            products.add(parseProduct(arr.optJSONObject(i)));
         }
-        return null;
+        return products;
     }
 
     public static Product parseProduct(JSONObject obj){
-        try {
-            Product product = new Product();
-            product.setServer_ID(obj.getInt("id"));
-            product.setName(obj.getString("name"));
-            product.setDescription(obj.getString("description"));
-            product.setPrice(obj.getDouble("price"));
-            return product;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        Product product = new Product();
+        product.setServer_ID(obj.optInt("id"));
+        product.setName(obj.optString("name"));
+        product.setDescription(obj.optString("description"));
+        product.setPrice(obj.optDouble("price"));
+        return product;
+    }
+
+    public static int[] parseIntArray(JSONArray arr){
+        int[] res = new int[arr.length()];
+        for(int i=0; i<arr.length(); i++){
+            res[i] = arr.optInt(i);
         }
-        return null;
+        return res;
     }
 
     private Response makeRequest(String link, String type, String request){
