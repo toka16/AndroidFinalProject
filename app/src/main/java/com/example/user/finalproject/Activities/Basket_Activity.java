@@ -1,7 +1,6 @@
 package com.example.user.finalproject.Activities;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -20,7 +19,7 @@ import com.example.user.finalproject.model.Product;
 
 import java.util.ArrayList;
 
-public class Deletable_Product_List_Activity extends ActionBarActivity {
+public class Basket_Activity extends ActionBarActivity {
 
     private ArrayList<Product> products ;
     private ListView productsListView;
@@ -33,14 +32,16 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.deletable_product_list_view);
+        setContentView(R.layout.basket_list_view);
 
         selected_item_index = -1;
-        productsListView = (ListView) findViewById(R.id.deletable_list_view_for_products);
+        productsListView = (ListView) findViewById(R.id.deletable_list_view_for_basket);
 
         // itogshi aq bazidan unda davitrio es arraylist
-        // gadmocemul intentshi aris asusual_ID da imis mixedvit udna modzebno tableshi
+        // ertadert tables shevexebi basket
+
         products = new ArrayList<>();
+
         adapter = new Product_Tab_Adapter(this,products);
         adapter.notifyDataSetChanged();
         productsListView.setAdapter(adapter);
@@ -52,12 +53,12 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
                 selected_item_index = position;
                 selected_Product = products.get(position);
-                TextView choosen_product_field = (TextView) findViewById(R.id.choosen_text);
+                TextView choosen_product_field = (TextView) findViewById(R.id.chosen_text_basket);
                 choosen_product_field.setText("მონიშნული პროდუქტი: " + products.get(position).getName());
             }
         });
 
-        Button deleteButton = (Button) findViewById(R.id.delete_product_from_as_usual);
+        Button deleteButton = (Button) findViewById(R.id.delete_product_from_basket);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,27 +71,23 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
                     return;
                 }
                 products.remove(selected_item_index);
+                adapter.notifyDataSetChanged();
                 TextView chosen_product_field = (TextView) findViewById(R.id.choosen_text);
                 chosen_product_field.setText("მონიშნული პროდუქტი: ");
                 selected_item_index = -1;
             }
         });
 
-        Button go_to_basket = (Button) findViewById(R.id.to_basket);
-        go_to_basket.setOnClickListener(new View.OnClickListener() {
+
+
+        Button makeOrderButton = (Button) findViewById(R.id.order_products);
+        makeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // tokas es aris shekvetis button
 
-
-                // jer sanam shekveta gaketdeba da davstartav activities iqamde basketis table unda gavavso
-
-                // egreve basketis intents davustartav
-
-                Intent intent = new Intent(getApplicationContext(),Basket_Activity.class);
-                startActivity(intent);
-
+                // shekvetas ro gaaketeb basketis tabledan yvelaferi washale
             }
         });
 
