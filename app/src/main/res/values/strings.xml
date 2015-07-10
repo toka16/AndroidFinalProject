@@ -29,5 +29,10 @@
 
     <string name="Add_to_basket_from_as_usual">შეკვეთა</string>
 
+    <string name="details_about_menu">Details</string>
+    <string name="chosen_menu">მონიშნული მენიუ:</string>
+
+    <string name="menu_filtered">თქვენ მიერ არჩეული მენიუ</string>
+
 
 </resources>

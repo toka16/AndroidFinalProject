@@ -1,8 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/menu_list_view"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@color/blue">
+
+
+    <TextView
+        android:id="@+id/chosen_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "@string/chosen_menu"
+        />
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@color/blue">
+
+        <Button
+            android:id="@+id/details_about_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_about_menu"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/go_to_basket_from_menu_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/go_to_basket"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+
+
+
+    <ListView
+        android:id="@+id/menu_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    </ListView>
 
 </LinearLayout>
