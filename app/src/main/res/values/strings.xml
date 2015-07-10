@@ -9,4 +9,11 @@
     <string name="update_data">update your profile . . .</string>
     <string name="get_information">Information about row</string>
 
+    <string name="enter_data">Enter Name Here...</string>
+
+    <string name="Add_Entry">დაამატე</string>
+    <string name="Delete_entry">წაშალე</string>
+    <string name="Update_entry">შეცვალე</string>
+    <string name="Go_to_Category">დეტალურად არჩევანის შესახებ</string>
+
 </resources>

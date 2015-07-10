@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue">
+
+    <EditText
+        android:id="@+id/as_usual_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
+        android:inputType = "text"
+        android:hint="@string/enter_data"
+        />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Add_Entry"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Delete_entry"
+            android:layout_weight="1"
+            />
+        <Button
+            android:id="@+id/updateBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Update_entry"
+            android:layout_weight="1"
+            />
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/go_to_as_usual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Go_to_Category"
+        />
+
+    <ListView
+        android:id="@+id/list_view_for_as_usuals"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    </ListView>
+
+
+</LinearLayout>
+

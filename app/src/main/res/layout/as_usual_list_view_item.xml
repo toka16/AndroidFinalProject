@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@color/blue"
+    android:id = "@+id/product_list_item_as_usual">
+
+
+    <ImageView
+        android:id="@+id/product_img_as_usual"
+        android:layout_marginRight="@dimen/from_caution_image"
+        android:layout_marginLeft="@dimen/from_caution_image2"
+        android:layout_height="@dimen/caution_image_height"
+        android:layout_width="@dimen/caution_image_width"
+        android:src = "@drawable/defaulti"
+        />
+
+    <TextView
+        android:id="@+id/text_as_usual"
+        android:layout_margin="@dimen/contact_list_item_from_image"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_weight="1"
+        />
+
+
+</LinearLayout>

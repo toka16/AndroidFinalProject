@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class As_Usual {
     private String name;
-    private String description;
     private double price;
     private long db_ID;
     private ArrayList<Product> products;
@@ -31,14 +30,6 @@ public class As_Usual {
         this.db_ID = db_id;
     }
 
-    public void setDescription(String description){
-        this.description = description;
-    }
-
-    public String getDescription(){
-        return description;
-    }
-
     public void setName(String newName){
         name = newName;
     }
@@ -57,6 +48,6 @@ public class As_Usual {
 
 
     public String toString(){
-        return "name: " + name + ", description: " + description + ", price: " + price;
+        return "name: " + name + ", price: " + price;
     }
 }
