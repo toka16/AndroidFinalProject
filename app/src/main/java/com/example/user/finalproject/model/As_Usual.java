@@ -1,17 +1,26 @@
 package com.example.user.finalproject.model;
 
-public class Product {
 
+import java.util.ArrayList;
+
+public class As_Usual {
     private String name;
     private String description;
     private double price;
-    private String category;
     private long db_ID;
-    private int server_ID;
+    private ArrayList<Product> products;
 
-    public Product(String name, String description){
+    public As_Usual(String name){
         this.name = name;
-        this.description = description;
+        products = new ArrayList<>();
+    }
+
+    public ArrayList<Product> getProducts(){
+        return this.products;
+    }
+
+    public void setProducts(ArrayList<Product> products){
+        this.products = products;
     }
 
     public long getDb_ID(){
@@ -20,14 +29,6 @@ public class Product {
 
     public void setDb_ID(long db_id){
         this.db_ID = db_id;
-    }
-
-    public int getServer_ID(){
-        return this.server_ID;
-    }
-
-    public void setServer_ID(int server_id){
-        this.server_ID = server_id;
     }
 
     public void setDescription(String description){
@@ -54,13 +55,6 @@ public class Product {
         return price;
     }
 
-    public void setCategoryName(String category){
-        this.category = category;
-    }
-
-    public String getCategoryName(){
-        return category;
-    }
 
     public String toString(){
         return "name: " + name + ", description: " + description + ", price: " + price;

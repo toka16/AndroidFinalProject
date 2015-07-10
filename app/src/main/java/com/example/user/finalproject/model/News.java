@@ -6,10 +6,28 @@ public class News {
     private String description;
     private String fromDate;
     private String toDate;
+    private long db_ID;
+    private int server_ID;
 
     public News(String name, String description){
         this.name = name;
         this.description = description;
+    }
+
+    public long getDb_ID(){
+        return this.db_ID;
+    }
+
+    public void setDb_ID(long db_id){
+        this.db_ID = db_id;
+    }
+
+    public int getServer_ID(){
+        return this.server_ID;
+    }
+
+    public void setServer_ID(int server_id){
+        this.server_ID = server_id;
     }
 
     public void setName(String newName){
