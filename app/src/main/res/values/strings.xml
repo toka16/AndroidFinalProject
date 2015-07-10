@@ -16,23 +16,25 @@
     <string name="Update_entry">შეცვალე</string>
     <string name="Go_to_Category">დეტალურად არჩევანის შესახებ</string>
 
-    <string name="Products_Filtered">თქვენი არჩეული "როგორც ყოველთვის"</string>
-    <string name="Product_chosen">თქვენს მიერ მონიშნული პროდუქტი:</string>
+    <string name="Products_Filtered">თქვენი არჩეული "როგორც ყოველთვის": </string>
+    <string name="Product_chosen">მონიშნული პროდუქტი: </string>
     <string name="delete_product_from_as_usual">წაშალე პროდუქტი</string>
 
     <string name="add_to_basket">Add to basket</string>
     <string name="go_to_basket">Go to basket</string>
-    <string name="chosen_product_text_first_tab">მონიშნული პროდუქტი</string>
+    <string name="chosen_product_text_first_tab">მონიშნული პროდუქტი: </string>
 
     <string name="order">შეკვეთა</string>
-    <string name="basket_products">შესაკვეთად გამზადებული პროდუქტები</string>
+    <string name="basket_products">შესაკვეთად გამზადებული პროდუქტები: </string>
 
     <string name="Add_to_basket_from_as_usual">შეკვეთა</string>
 
     <string name="details_about_menu">Details</string>
     <string name="chosen_menu">მონიშნული მენიუ:</string>
 
-    <string name="menu_filtered">თქვენ მიერ არჩეული მენიუ</string>
+    <string name="menu_filtered">არჩეული მენიუ: </string>
+
+    <string name="chosen_news_name">არჩეული სიახლე: </string>
 
 
 </resources>

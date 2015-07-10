@@ -37,7 +37,6 @@ public class Menu_Fragment extends Fragment {
     private View view;
 
     private ArrayList<Menu> menus;
-    private ArrayList<Product> basket_products;
     private Menu selected_menu;
     private int selected_item_index;
 
@@ -108,6 +107,8 @@ public class Menu_Fragment extends Fragment {
             public void onClick(View v) {
 
                 // egreve basketis intents davustartav
+
+                selected_item_index = -1;
 
                 Intent intent = new Intent(getActivity(),Basket_Activity.class);
                 startActivity(intent);

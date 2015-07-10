@@ -5,19 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/chosen_product_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text = "@string/Product_chosen"
-        android:background="@color/blue"
-        />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         android:background="@color/blue">
 
         <Button
@@ -39,6 +31,14 @@
             />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/chosen_product_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "@string/Product_chosen"
+        android:background="@color/blue"
+        />
 
     <ListView
         android:id="@+id/list_view_for_products"
