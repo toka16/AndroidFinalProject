@@ -1,6 +1,7 @@
 package com.example.user.finalproject.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.user.finalproject.Activities.Deletable_Product_List_Activity;
 import com.example.user.finalproject.Adapters.As_Usual_Tab_Adapter;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.model.As_Usual;
@@ -194,12 +196,12 @@ public class As_Usual_Fragment extends Fragment {
             }
         });
 
-        Button goToCategoryButton = (Button) view.findViewById(R.id.go_to_as_usual);
-        goToCategoryButton.setOnClickListener(new View.OnClickListener() {
+        Button goToAsUsualButton = (Button) view.findViewById(R.id.go_to_as_usual);
+        goToAsUsualButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // aq daistarteba axali intenti
-                if(selected_item_index<0){
+                if( selected_item_index < 0){
                     Toast toast = Toast.makeText(inf.getContext(), "Please select category to get  more details", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
                     toast.show();
@@ -207,15 +209,17 @@ public class As_Usual_Fragment extends Fragment {
                 }
 
 
-                ArrayList<Product> concrete_as_usual = as_Usuals.get(selected_item_index).getProducts();
-                //aq kide dastarte axali intenti da gadaeci es arraylist
+                // Y U R A D G E B A  !!!!!!!!!!!!!!!!!!!!!!!
+
+                Long concrete_as_usual_db_id = as_Usuals.get(selected_item_index).getDb_ID();
+                //aq kide dastarte axali intenti da gadaeci es db_id
 
 
-//                Changable_List_View_Activity.expenses = result;
+//                ar dagaviwydes am intis gataneba tore iqet ver gaavseb arraylist
 //
 //
-//                Intent changableExpensesIntent = new Intent(getActivity(),Changable_List_View_Activity.class);
-//                startActivity(changableExpensesIntent);
+                Intent changableExpensesIntent = new Intent(getActivity(),Deletable_Product_List_Activity.class);
+                startActivity(changableExpensesIntent);
 
             }
         });

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue">
+
+    <TextView
+        android:id="@+id/header_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "@string/Products_Filtered"
+        android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
+        />
+
+
+
+
+    <Button
+        android:id="@+id/delete_product_from_as_usual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_product_from_as_usual"
+        />
+
+    <TextView
+        android:id="@+id/choosen_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "@string/Product_chosen"
+        android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
+        />
+
+    <ListView
+        android:id="@+id/deletable_list_view_for_products"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    </ListView>
+
+</LinearLayout>

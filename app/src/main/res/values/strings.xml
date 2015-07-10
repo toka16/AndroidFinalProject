@@ -16,4 +16,9 @@
     <string name="Update_entry">შეცვალე</string>
     <string name="Go_to_Category">დეტალურად არჩევანის შესახებ</string>
 
+    <string name="Products_Filtered">თქვენი არჩეული "როგორც ყოველთვის"</string>
+    <string name="Product_chosen">თქვენს მიერ მონიშნული პროდუქტი:</string>
+    <string name="delete_product_from_as_usual">წაშალე პროდუქტი</string>
+
+
 </resources>
