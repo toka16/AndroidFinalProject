@@ -218,8 +218,8 @@ public class As_Usual_Fragment extends Fragment {
 //                ar dagaviwydes am intis gataneba tore iqet ver gaavseb arraylist
 //
 //
-                Intent changableExpensesIntent = new Intent(getActivity(),Deletable_Product_List_Activity.class);
-                startActivity(changableExpensesIntent);
+                Intent intent = new Intent(getActivity(),Deletable_Product_List_Activity.class);
+                startActivity(intent);
 
             }
         });

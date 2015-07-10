@@ -5,16 +5,13 @@
     android:layout_height="match_parent"
     android:background="@color/blue">
 
-
     <TextView
-        android:id="@+id/choosen_text"
+        android:id="@+id/chosen_text_basket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text = "@string/Product_chosen"
         android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
         />
-
-
 
 
     <LinearLayout
@@ -25,21 +22,21 @@
         android:background="@color/blue">
 
         <Button
-            android:id="@+id/delete_product_from_as_usual"
+            android:id="@+id/delete_product_from_basket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_product_from_as_usual"
             android:layout_weight="1"
-            />
+        />
 
         <Button
-            android:id="@+id/to_basket"
+            android:id="@+id/order_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Add_to_basket_from_as_usual"
+            android:text="@string/order"
             android:textAllCaps="false"
             android:layout_weight="1"
-            />
+        />
 
     </LinearLayout>
 
@@ -48,12 +45,12 @@
         android:id="@+id/chosen_product_text_first_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text = "@string/Products_Filtered"
+        android:text = "@string/basket_products"
         android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
         />
 
     <ListView
-        android:id="@+id/deletable_list_view_for_products"
+        android:id="@+id/deletable_list_view_for_basket"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
     </ListView>

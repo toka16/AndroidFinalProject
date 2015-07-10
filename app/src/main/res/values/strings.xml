@@ -20,5 +20,14 @@
     <string name="Product_chosen">თქვენს მიერ მონიშნული პროდუქტი:</string>
     <string name="delete_product_from_as_usual">წაშალე პროდუქტი</string>
 
+    <string name="add_to_basket">Add to basket</string>
+    <string name="go_to_basket">Go to basket</string>
+    <string name="chosen_product_text_first_tab">მონიშნული პროდუქტი</string>
+
+    <string name="order">შეკვეთა</string>
+    <string name="basket_products">შესაკვეთად გამზადებული პროდუქტები</string>
+
+    <string name="Add_to_basket_from_as_usual">შეკვეთა</string>
+
 
 </resources>
