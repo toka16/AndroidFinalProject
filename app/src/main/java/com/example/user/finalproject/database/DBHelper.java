@@ -117,7 +117,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 //        int categoryID = getAppropriateCategoryID(product.getCategoryName());
         values.clear();
-//        values.put(DBTableEntries.MAP_CATEGORY_ID, categoryID);
+//     values.put(DBTableEntries.MAP_CATEGORY_ID, categoryID);
         values.put(DBTableEntries.MAP_PRODUCT_ID, (int)productID);
         db.insert(DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME, null, values);
     }
