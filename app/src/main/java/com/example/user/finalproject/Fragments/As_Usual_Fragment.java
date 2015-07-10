@@ -1,23 +1,15 @@
 package com.example.user.finalproject.Fragments;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
 
-import com.example.user.finalproject.Adapters.Profile_Tab_Adapter;
 import com.example.user.finalproject.R;
 
-import java.util.ArrayList;
-
-
-public class Basket_Fragment extends Fragment {
+public class As_Usual_Fragment extends Fragment {
     private View view;
 //    private boolean clicked;
 

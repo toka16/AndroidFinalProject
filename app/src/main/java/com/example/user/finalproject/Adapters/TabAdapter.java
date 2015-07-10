@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.user.finalproject.Fragments.Basket_Fragment;
+import com.example.user.finalproject.Fragments.As_Usual_Fragment;
 import com.example.user.finalproject.Fragments.Menu_Fragment;
 import com.example.user.finalproject.Fragments.News_Fragment;
 import com.example.user.finalproject.Fragments.Product_Fragment;
@@ -32,7 +32,7 @@ public class TabAdapter extends FragmentPagerAdapter {
             case 3:
                 return new Profile_Fragment();
             case 4:
-                return new Basket_Fragment();
+                return new As_Usual_Fragment();
             default:
                 return null;
         }
