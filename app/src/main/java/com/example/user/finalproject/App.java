@@ -84,5 +84,14 @@ public class App extends Application{
         }
         editor.commit();
 
+        ArrayList<Product> pr = new ArrayList<>();
+        for(int i=0; i<15; i++){
+            Product p = new Product();
+            p.setServer_ID(i);
+            pr.add(p);
+        }
+        ServerHelper.ServerResponse r = helper.makeOrder(pr);
+        System.out.println("name"+ r.name());
+
     }
 }

@@ -339,7 +339,7 @@ public class ServerHelper {
                     if(request != null){
                         conn.setDoOutput(true);
                         OutputStream out = conn.getOutputStream();
-                        new PrintWriter(out).print(request);
+                        out.write(request.getBytes());
                         out.flush();
                         out.close();
                     }
