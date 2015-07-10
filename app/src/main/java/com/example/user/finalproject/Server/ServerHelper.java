@@ -1,8 +1,7 @@
 package com.example.user.finalproject.Server;
 
-import android.util.JsonReader;
+import android.os.AsyncTask;
 
-import com.example.user.finalproject.App;
 import com.example.user.finalproject.model.Category;
 import com.example.user.finalproject.model.Menu;
 import com.example.user.finalproject.model.News;
@@ -21,6 +20,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by toka on 7/10/2015.
@@ -56,18 +57,32 @@ public class ServerHelper {
     }
 
     public ServerResponse login(String username, String password) {
-        Map<String, String> data = new HashMap<>();
+        final Map<String, String> data = new HashMap<>();
         data.put("email", username);
         data.put("password", sha256(password));
+        AsyncTask<Object, Object, Integer> task = new AsyncTask<Object, Object, Integer>() {
+            @Override
+            protected Integer doInBackground(Object... params) {
+                int res = -1;
+                try {
+                    res = doSubmit(Constants.URL_LOGIN, data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return res;
+            }
+        }.execute();
         try {
-            int res = doSubmit(Constants.URL_LOGIN, data);
+            int res = task.get();
             if (res == 200) {
                 return ServerResponse.OK;
             } else if (res == 206) {
-                return ServerResponse.INVALIDE_USERNAME_OR_PASSWORD;
+                return ServerResponse.INVALID_USERNAME_OR_PASSWORD;
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return ServerResponse.UNKNOWN;
     }
@@ -80,7 +95,7 @@ public class ServerHelper {
                                    String mobileNumber,
                                    String cardNumber) {
 
-        Map<String, String> data = new HashMap<>();
+        final Map<String, String> data = new HashMap<>();
         data.put("email", email);
         data.put("password", sha256(password));
         data.put("first_name", firstName);
@@ -89,14 +104,29 @@ public class ServerHelper {
         data.put("mobile_number", mobileNumber);
         data.put("card_number", cardNumber);
 
+        AsyncTask<Object, Object, Integer> task = new AsyncTask<Object, Object, Integer>() {
+            @Override
+            protected Integer doInBackground(Object... params) {
+                int res = -1;
+                try {
+                    res = doSubmit(Constants.URL_REGISTER, data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return res;
+            }
+        }.execute();
         try {
-            int res = doSubmit(Constants.URL_REGISTER, data);
-            if(res == 400){
-                return ServerResponse.BAD_REQUEST;
-            }else if(res == 200)
+            int res = task.get();
+            if (res == 200) {
                 return ServerResponse.OK;
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            } else if (res == 206) {
+                return ServerResponse.INVALID_USERNAME_OR_PASSWORD;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return ServerResponse.UNKNOWN;
     }
@@ -111,9 +141,7 @@ public class ServerHelper {
 
     public ArrayList<Product> getProducts(){
         Response res = makeRequest(Constants.URL_PRODUCTS_ALL, "GET", null);
-        System.out.println("status: "+res.status);
-        System.out.println("text: "+res.text);
-        if(res.status == 200) {
+        if(res != null && res.status == 200) {
             try {
                 return parseProductArray(new JSONArray(res.text));
             } catch (JSONException e) {
@@ -133,9 +161,7 @@ public class ServerHelper {
 
     public ArrayList<News> getNews(){
         Response res = makeRequest(Constants.URL_NEWS_ALL, "GET", null);
-        System.out.println("status: "+res.status);
-        System.out.println("text: "+res.text);
-        if(res.status == 200){
+        if(res != null && res.status == 200){
             try {
                 return parseNewsArray(new JSONArray(res.text));
             } catch (JSONException e) {
@@ -155,9 +181,7 @@ public class ServerHelper {
 
     public ArrayList<Menu> getMenus(){
         Response res = makeRequest(Constants.URL_MENUS_ALL, "GET", null);
-        System.out.println("status: "+res.status);
-        System.out.println("text: "+res.text);
-        if(res.status == 200){
+        if(res != null && res.status == 200){
             try {
                 return parseMenuArray(new JSONArray(res.text));
             } catch (JSONException e) {
@@ -177,9 +201,7 @@ public class ServerHelper {
 
     public ArrayList<Category> getCategories(){
         Response res = makeRequest(Constants.URL_CATEGORY_ALL, "GET", null);
-        System.out.println("status: "+res.status);
-        System.out.println("text: "+res.text);
-        if(res.status == 200){
+        if(res != null && res.status == 200){
             try {
                 return parseCategoryArray(new JSONArray(res.text));
             } catch (JSONException e) {
@@ -202,6 +224,8 @@ public class ServerHelper {
         }
         String request = obj.toString();
         Response res =  makeRequest(Constants.URL_SHOP, "POST", request);
+        if(res == null)
+            return ServerResponse.UNKNOWN;
         if(res.status == 401)
             return ServerResponse.UNAUTHORIZED;
         if(res.status == 200)
@@ -211,6 +235,8 @@ public class ServerHelper {
     }
 
     public static ArrayList<Category> parseCategoryArray(JSONArray arr){
+        if(arr == null)
+            return null;
         ArrayList<Category> categories = new ArrayList<>();
         for(int i=0; i<arr.length(); i++){
             categories.add(parseCategory(arr.optJSONObject(i)));
@@ -229,6 +255,8 @@ public class ServerHelper {
     }
 
     public static ArrayList<News> parseNewsArray(JSONArray arr){
+        if(arr == null)
+            return null;
         ArrayList<News> newses = new ArrayList<>();
         for(int i=0; i<arr.length(); i++){
             newses.add(parseNews(arr.optJSONObject(i)));
@@ -247,6 +275,8 @@ public class ServerHelper {
     }
 
     public static ArrayList<Menu> parseMenuArray(JSONArray arr){
+        if(arr == null)
+            return null;
         ArrayList<Menu> menus = new ArrayList<>();
         for(int i=0; i<arr.length(); i++){
             menus.add(parseMenu(arr.optJSONObject(i)));
@@ -266,6 +296,8 @@ public class ServerHelper {
     }
 
     public static ArrayList<Product> parseProductArray(JSONArray arr){
+        if(arr == null)
+            return null;
         ArrayList<Product> products = new ArrayList<>();
         for(int i=0; i<arr.length(); i++){
             products.add(parseProduct(arr.optJSONObject(i)));
@@ -283,6 +315,8 @@ public class ServerHelper {
     }
 
     public static int[] parseIntArray(JSONArray arr){
+        if(arr == null)
+            return null;
         int[] res = new int[arr.length()];
         for(int i=0; i<arr.length(); i++){
             res[i] = arr.optInt(i);
@@ -290,42 +324,59 @@ public class ServerHelper {
         return res;
     }
 
-    private Response makeRequest(String link, String type, String request){
+    private Response makeRequest(final String link, final String type, final String request){
+        AsyncTask<Void, Void, Response> task = new AsyncTask<Void, Void, Response>() {
+            @Override
+            protected Response doInBackground(Void... params) {
+                try {
+                    URL url = new URL(link);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Cookie", COOKIE);
+                    conn.setUseCaches(true);
+                    conn.setDoInput(true);
+                    if(request != null){
+                        conn.setDoOutput(true);
+                        OutputStream out = conn.getOutputStream();
+                        new PrintWriter(out).print(request);
+                        out.flush();
+                        out.close();
+                    }
+
+                    Response res = new Response();
+                    res.status = conn.getResponseCode();
+                    StringBuilder builder = new StringBuilder();
+                    if(conn.getResponseCode() == 200){
+                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        String line;
+                        while((line = in.readLine()) != null)
+                            builder.append(line);
+
+                        in.close();
+                        res.text = builder.toString();
+                        return res;
+                    }
+                } catch (MalformedURLException ex) {
+                    ex.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+        task.execute();
+        Response res = null;
         try {
-            URL url = new URL(link);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Cookie", COOKIE);
-            conn.setUseCaches(true);
-            conn.setDoInput(true);
-            if(request != null){
-                conn.setDoOutput(true);
-                OutputStream out = conn.getOutputStream();
-                new PrintWriter(out).print(request);
-                out.flush();
-                out.close();
-            }
-
-            Response res = new Response();
-            res.status = conn.getResponseCode();
-            StringBuilder builder = new StringBuilder();
-            if(conn.getResponseCode() == 200){
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String line;
-                while((line = in.readLine()) != null)
-                    builder.append(line);
-
-                in.close();
-                res.text = builder.toString();
-                return res;
-            }
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            res = task.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-        return null;
+        return res;
     }
 
     private static String sha256(String base) {
@@ -358,9 +409,7 @@ public class ServerHelper {
         conn.setUseCaches(true);
         conn.setDoOutput(true);
         conn.setDoInput(true);
-
         DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-
         Set keys = data.keySet();
         Iterator keyIter = keys.iterator();
         String content = "";
@@ -371,7 +420,6 @@ public class ServerHelper {
             }
             content += key + "=" + URLEncoder.encode(data.get(key), "UTF-8");
         }
-        System.out.println(content);
         out.writeBytes(content);
         out.flush();
         out.close();
@@ -388,7 +436,7 @@ public class ServerHelper {
         OK,
         UNAUTHORIZED,
         UNKNOWN,
-        INVALIDE_USERNAME_OR_PASSWORD,
+        INVALID_USERNAME_OR_PASSWORD,
         BAD_REQUEST
     }
 

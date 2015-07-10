@@ -73,8 +73,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int VERSION = 3;
     private SQLiteDatabase db = getWritableDatabase();
 
-    public DBHelper(Context context, String name, int version) {
-        super(context, name, null, version);
+    public DBHelper(Context context) {
+        super(context, NAME, null, VERSION);
 //        db = getWritableDatabase();
         Log.d("TEST", "constructor-shi shevida");
     }

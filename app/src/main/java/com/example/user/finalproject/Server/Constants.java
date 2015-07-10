@@ -4,7 +4,7 @@ package com.example.user.finalproject.Server;
  * Created by toka on 7/10/2015.
  */
 public class Constants {
-    private static final String HOST = "http://localhost:8080/AndroidFinalProjectServer/";
+    private static final String HOST = "http://10.0.3.2:8080/AndroidFinalProjectServer/";
 
 
 
