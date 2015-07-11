@@ -20,6 +20,9 @@ import com.example.user.finalproject.Activities.Categories_List_Activity;
 import com.example.user.finalproject.Activities.Deletable_Product_List_Activity;
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
+import com.example.user.finalproject.model.Category;
+import com.example.user.finalproject.model.Menu;
 import com.example.user.finalproject.model.Product;
 
 import java.util.ArrayList;
@@ -68,7 +71,11 @@ public class Product_Fragment extends Fragment {
         // aqac bazidan unda sheavso
         basket_products = new ArrayList<>();
 
-        products = fromBase();
+        DBHelper bla =  DBHelper.getInstance(inf.getContext());
+
+        insertElements();
+
+        products = (ArrayList) bla.allProducts();
         Product_Tab_Adapter adapter = new Product_Tab_Adapter(inf.getContext(),products);
         productsListView.setAdapter(adapter);
 
@@ -129,22 +136,34 @@ public class Product_Fragment extends Fragment {
         return view;
     }
 
-    private ArrayList<Product> fromBase(){
+    private void insertElements(){
+        DBHelper bla =  DBHelper.getInstance(inf.getContext());
+        Product temp = new Product("burger axali","gemrielia simon");
+        bla.insertNewProduct(temp);
 
-        ArrayList<Product> result = new ArrayList<>();
+        Product temp7 = new Product("stake"," delicious");
+        bla.insertNewProduct(temp7);
 
-        // aq realurad basidan unda wamovigot es productebi
+        Product temp2 = new Product("nayini axali","esec gemrielia simon");
+        bla.insertNewProduct(temp2);
 
+        Product temp3 = new Product("free axali","ramdens cham ra ubedurebaa");
+        bla.insertNewProduct(temp3);
 
-        Product temp = new Product("burger","gemrielia simon");
-        result.add(temp);
+        Category cat = new Category();
+        cat.setName("xorciani sachmelebi");
+        cat.getProducts().add(temp7);
+        cat.getProducts().add(temp);
 
-        Product temp2 = new Product("nayini","esec gemrielia simon");
-        result.add(temp2);
+        bla.insertNewCategory(cat);
 
-        Product temp3 = new Product("free","ramdens cham ra ubedurebaa");
-        result.add(temp3);
-        return result;
+        Menu menu = new Menu();
+        menu.setName("sauzme");
+        menu.getProducts().add(temp2);
+        menu.getProducts().add(temp3);
+
+        bla.insertNewMenu(menu);
+
     }
 
     @Override

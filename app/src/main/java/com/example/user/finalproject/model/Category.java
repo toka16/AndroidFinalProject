@@ -11,6 +11,10 @@ public class Category {
     private int server_ID;
     private ArrayList<Product> products;
 
+    public Category(){
+        products = new ArrayList<>();
+    }
+
     public long getDb_ID() {
         return db_ID;
     }

@@ -11,11 +11,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -37,9 +42,15 @@ public class Category_Products_Activity extends ActionBarActivity {
         selected_item_index = -1;
         productsListView = (ListView) findViewById(R.id.products_list_in_detailed_category_activity);
 
-        // itogshi aq bazidan unda davitrio es arraylist
-        // gadmocemul intentshi aris category ID  da imis mixedvit udna modzebno tableshi
-        products = new ArrayList<>();
+
+        Intent intent = getIntent();
+
+
+        TextView temp = (TextView) findViewById(R.id.detailed_category_activity_header);
+        temp.setText(temp.getText() + " "+intent.getStringExtra(Intent_Variables.category_Name_For_Intent));
+
+
+        products = DBHelper.getInstance(getApplication()).getCategoryProducts(intent.getLongExtra(Intent_Variables.category_ID_Fof_Intent, 0));
         adapter = new Product_Tab_Adapter(this,products);
         adapter.notifyDataSetChanged();
         productsListView.setAdapter(adapter);
@@ -55,6 +66,7 @@ public class Category_Products_Activity extends ActionBarActivity {
                 toast = Toast.makeText(getApplicationContext(), selected_Product.getDescription(), Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
                 toast.show();
+
             }
         });
 

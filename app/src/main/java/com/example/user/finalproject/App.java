@@ -45,7 +45,7 @@ public class App extends Application{
         int remote_categories_version = helper.getCategoriesVersion();
 
         SharedPreferences.Editor editor = pref.edit();
-        DBHelper db = new DBHelper(this);
+        DBHelper db = DBHelper.getInstance(this);
         if(cur_products_version == -1 || cur_products_version != remote_products_version) {
             ArrayList<Product> products = helper.getProducts();
             editor.putInt(SHARED_PREFERENCES_VERSION_PRODUCTS, remote_products_version);

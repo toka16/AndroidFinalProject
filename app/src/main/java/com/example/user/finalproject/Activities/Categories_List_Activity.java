@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Category_Adapter;
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Category;
 import com.example.user.finalproject.model.Product;
 
@@ -45,7 +47,7 @@ public class Categories_List_Activity extends ActionBarActivity {
         // itogshi aq bazidan unda davitrio es arraylist
         // !!!!!!!!!!!!!!!!
 
-        categories = new ArrayList<>();
+        categories = (ArrayList)DBHelper.getInstance(getApplicationContext()).allCategories();
 
         adapter = new Category_Adapter(this,categories);
         adapter.notifyDataSetChanged();
@@ -71,19 +73,17 @@ public class Categories_List_Activity extends ActionBarActivity {
             public void onClick(View v) {
 
 
-//                if(selected_item_index < 0){
-//                    Toast toast;
-//                    toast = Toast.makeText(getApplicationContext(), "You haven`t marked category yet", Toast.LENGTH_LONG);
-//                    toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-//                    toast.show();
-//                    return;
-//                }
+                if(selected_item_index < 0){
+                    Toast toast;
+                    toast = Toast.makeText(getApplicationContext(), "You haven`t marked category yet", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
 
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-                // axal intents davstartav da gavatan category_ID-s
                 Intent intent = new Intent(getApplicationContext(),Category_Products_Activity.class);
+                intent.putExtra(Intent_Variables.category_ID_Fof_Intent,selected_Category.getDb_ID());
+                intent.putExtra(Intent_Variables.category_Name_For_Intent,selected_Category.getName());
                 startActivity(intent);
 
             }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Profile_Tab_Adapter;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.User_Information;
 
 import java.util.ArrayList;

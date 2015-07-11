@@ -3,47 +3,47 @@ package com.example.user.finalproject.database;
 public class DBTableEntries  {
 
     public static final String PRODUCT_TABLE_NAME = "Products";
-    public static final String PRODUCT_ID = "ID";
-    public static final String PRODUCT_NAME = "name";
-    public static final String PRODUCT_DESCRIPTION = "description";
-    public static final String PRODUCT_PRICE = "price";
+    public static final String PRODUCT_ID = "product_id";
+    public static final String PRODUCT_NAME = "product_name";
+    public static final String PRODUCT_DESCRIPTION = "product_description";
+    public static final String PRODUCT_PRICE = "product_price";
     public static final String PRODUCT_IMAGE = "product_image";
-    public static final String PRODUCT_SERVER_ID = "server_id";
+    public static final String PRODUCT_SERVER_ID = "product_server_id";
 
     public static final String CATEGORY_TABLE_NAME = "Categories";
-    public static final String CATEGORY_ID = "ID";
-    public static final String CATEGORY_NAME = "name";
-    public static final String CATEGORY_SERVER_ID = "server_id";
+    public static final String CATEGORY_ID = "category_id";
+    public static final String CATEGORY_NAME = "category_name";
+    public static final String CATEGORY_SERVER_ID = "category_server_id";
 
     public static final String MAP_CATEGORY_PRODUCT_TABLE_NAME = "MapCategoryProduct";
-    public static final String MAP_ID = "ID";
-    public static final String MAP_CATEGORY_ID = "categoryID";
-    public static final String MAP_PRODUCT_ID = "productID";
+    public static final String MAP_ID = "map_category_product_id";
+    public static final String MAP_CATEGORY_ID = "map_category_product_categoryID";
+    public static final String MAP_PRODUCT_ID = "map_category_product_productID";
 
     public static final String NEWS_TABLE_NAME = "News";
-    public static final String NEWS_ID = "ID";
-    public static final String NEWS_NAME = "name";
-    public static final String NEWS_DESCRIPTION = "description";
-    public static final String NEWS_FROM_DATE = "from_date";
-    public static final String NEWS_TO_DATE = "to_date";
-    public static final String NEWS_SERVER_ID = "server_id";
+    public static final String NEWS_ID = "news_id";
+    public static final String NEWS_NAME = "news_name";
+    public static final String NEWS_DESCRIPTION = "news_description";
+    public static final String NEWS_FROM_DATE = "news_from_date";
+    public static final String NEWS_TO_DATE = "news_to_date";
+    public static final String NEWS_SERVER_ID = "news_server_id";
 
     public static final String MENU_TABLE_NAME = "Menu";
-    public static final String MENU_ID = "ID";
-    public static final String MENU_NAME = "name";
-    public static final String MENU_DESCRIPTION = "description";
-    public static final String MENU_PRICE = "price";
-    public static final String MENU_IMAGE = "image";
-    public static final String MENU_SERVER_ID = "server_id";
+    public static final String MENU_ID = "menu_id";
+    public static final String MENU_NAME = "menu_name";
+    public static final String MENU_DESCRIPTION = "menu_description";
+    public static final String MENU_PRICE = "menu_price";
+    public static final String MENU_IMAGE = "menu_image";
+    public static final String MENU_SERVER_ID = "menu_server_id";
 
     public static final String MAP_MENU_PRODUCT_TABLE_NAME = "MapMenuProduct";
-    public static final String MAP_MENU_TABLE_ID = "ID";
-    public static final String MAP_MENU_TABLE_MENU_ID = "menuID";
-    public static final String MAP_MENU_TABLE_PRODUCT_ID = "productID";
+    public static final String MAP_MENU_TABLE_ID = "menu_id";
+    public static final String MAP_MENU_TABLE_MENU_ID = "map_menu_product_menuID";
+    public static final String MAP_MENU_TABLE_PRODUCT_ID = "map_menu_product_productID";
 
     public static final String USER_TABLE_NAME = "user";
-    public static final String USER_ENTRY_ID = "ID";
-    public static final String USER_FIELD_NAME_COLUMN = "fields";
-    public static final String USER_FILED_VALUE_COLUMN = "values";
+    public static final String USER_ENTRY_ID = "user_id";
+    public static final String USER_FIELD_NAME_COLUMN = "user_fields";
+    public static final String USER_FILED_VALUE_COLUMN = "user_values";
 
 }

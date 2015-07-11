@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_PRODUCT_TABLE = " CREATE TABLE " +
             DBTableEntries.PRODUCT_TABLE_NAME  + " ( " +
-            DBTableEntries.PRODUCT_ID + " LONG PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.PRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DBTableEntries.PRODUCT_NAME + " NVARCHAR(64)," +
             DBTableEntries.PRODUCT_DESCRIPTION + " TEXT," +
             DBTableEntries.PRODUCT_PRICE + " DOUBLE," +
@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_CATEGORIES_TABLE = " CREATE TABLE " +
             DBTableEntries.CATEGORY_TABLE_NAME + " ( " +
-            DBTableEntries.CATEGORY_ID + " LONG PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DBTableEntries.CATEGORY_NAME + " NVARCHAR(64), " +
             DBTableEntries.CATEGORY_SERVER_ID + " INT," +
             "CONSTRAINT category_unique_const UNIQUE (" + DBTableEntries.CATEGORY_NAME + ")"
@@ -42,7 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_MAP_CATEGORY_PRODUCT_TABLE = " CREATE TABLE " +
             DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME + " ( " +
-            DBTableEntries.MAP_ID + " LONG PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.MAP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DBTableEntries.MAP_CATEGORY_ID + " LONG," +
             DBTableEntries.MAP_PRODUCT_ID + " LONG," +
             "CONSTRAINT map_unique_const UNIQUE (" + DBTableEntries.MAP_CATEGORY_ID + "," + DBTableEntries.MAP_PRODUCT_ID + ")"
@@ -50,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_NEWS_TABLE = " CREATE TABLE " +
             DBTableEntries.NEWS_TABLE_NAME + " ( " +
-            DBTableEntries.NEWS_ID + " LONG PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.NEWS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DBTableEntries.NEWS_NAME + " NVARCHAR(64)," +
             DBTableEntries.NEWS_DESCRIPTION + " TEXT," +
             DBTableEntries.NEWS_FROM_DATE + " TIMESTAMP," +
@@ -60,7 +60,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_MENU_TABLE = " CREATE TABLE " +
             DBTableEntries.MENU_TABLE_NAME + " (" +
-            DBTableEntries.MENU_ID + " LONG PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.MENU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DBTableEntries.MENU_NAME + " NVARCHAR(64)," +
             DBTableEntries.MENU_DESCRIPTION + " TEXT," +
             DBTableEntries.MENU_PRICE + " DOUBLE," +
@@ -71,7 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_MAP_MENU_CATEGORY = " CREATE TABLE " +
             DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME + " ( " +
-            DBTableEntries.MAP_MENU_TABLE_ID + " LONG PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.MAP_MENU_TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DBTableEntries.MAP_MENU_TABLE_MENU_ID + " LONG," +
             DBTableEntries.MAP_MENU_TABLE_PRODUCT_ID + " LONG," +
             "CONSTRAINT map_menu_unique_const UNIQUE (" + DBTableEntries.MAP_MENU_TABLE_MENU_ID + "," + DBTableEntries.MAP_MENU_TABLE_PRODUCT_ID + ")"
@@ -79,7 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_USER_TABLE = " CREATE TABLE " +
             DBTableEntries.USER_TABLE_NAME + " ( " +
-            DBTableEntries.USER_ENTRY_ID + " LONG PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.USER_ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DBTableEntries.USER_FIELD_NAME_COLUMN + " VARCHAR(32)," +
             DBTableEntries.USER_FILED_VALUE_COLUMN + " NVARCHAR(32)"
         + " )";
@@ -92,9 +92,18 @@ public class DBHelper extends SQLiteOpenHelper {
             "insert into " + DBTableEntries.USER_TABLE_NAME + "(" + DBTableEntries.USER_FIELD_NAME_COLUMN  + ")" +
             " values " + "('name'), ('surname'), ('email'), ('password'), ('phone'), ('card_number'), ('primary_number')";
 
-    public DBHelper(Context context) {
+    private DBHelper(Context context) {
         super(context, NAME, null, VERSION);
         db = getWritableDatabase();
+    }
+
+    private static DBHelper instance;
+
+    public static DBHelper getInstance(Context context){
+        if(instance == null){
+           instance = new DBHelper(context);
+        }
+        return instance;
     }
 
     @Override
@@ -253,9 +262,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // The method fills a given list by all categories.
-    public List<Category> allCategories(){
-        List<Category> categoryList = new ArrayList<>();
-        String selectQuery = "select " + DBTableEntries.CATEGORY_NAME + " from " + DBTableEntries.CATEGORY_TABLE_NAME;
+    public ArrayList<Category> allCategories(){
+        ArrayList<Category> categoryList = new ArrayList<>();
+        String selectQuery = "select * from " + DBTableEntries.CATEGORY_TABLE_NAME;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         int localDBIDIndex = cursor.getColumnIndexOrThrow(DBTableEntries.CATEGORY_ID);
@@ -271,30 +280,36 @@ public class DBHelper extends SQLiteOpenHelper {
             category.setName(name);
             category.setServer_ID(serverID);
 
-            String selectProducts = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
-                                    DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
-                                    DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
-                                    " from " + DBTableEntries.PRODUCT_TABLE_NAME +
-                                    " inner join " + DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME +
-                                    " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.MAP_PRODUCT_ID +
-                                    " where " + DBTableEntries.MAP_CATEGORY_ID + " = " + id;
+            ArrayList<Product> products = getCategoryProducts(id);
 
-            Cursor cursorCategoryProducts = db.rawQuery(selectProducts, null);
-            ArrayList<Product> products = new ArrayList<>();
-
-            processProductCursor(cursorCategoryProducts, products);
             category.setProducts(products);
             categoryList.add(category);
 
-            cursorCategoryProducts.close();
         }
         cursor.close();
         return categoryList;
     }
 
+    public ArrayList<Product> getCategoryProducts(long categoryID){
+        String selectProducts = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
+                DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
+                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
+                " from " + DBTableEntries.PRODUCT_TABLE_NAME +
+                " inner join " + DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME +
+                " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.MAP_PRODUCT_ID +
+                " where " + DBTableEntries.MAP_CATEGORY_ID + " = " + categoryID;
+
+        Cursor cursorCategoryProducts = db.rawQuery(selectProducts, null);
+        ArrayList<Product> products = new ArrayList<>();
+
+        processProductCursor(cursorCategoryProducts, products);
+        cursorCategoryProducts.close();
+        return products;
+    }
+
     // The method returns all menus from database.
-    public List<Menu> allMenus(){
-        List<Menu> menuList = new ArrayList<>();
+    public ArrayList<Menu> allMenus(){
+        ArrayList<Menu> menuList = new ArrayList<>();
         String selectMenuQuery = "select * from " + DBTableEntries.MENU_TABLE_NAME;
         Cursor cursor = db.rawQuery(selectMenuQuery, null);
 
@@ -304,7 +319,7 @@ public class DBHelper extends SQLiteOpenHelper {
         int priceIndex = cursor.getColumnIndexOrThrow(DBTableEntries.MENU_PRICE);
         int imageIndex = cursor.getColumnIndexOrThrow(DBTableEntries.MENU_IMAGE);
         int serverIDIndex = cursor.getColumnIndexOrThrow(DBTableEntries.MENU_SERVER_ID);
-        
+
         while(cursor.moveToNext()){
             long id = cursor.getLong(idIndex);
             String name = cursor.getString(nameIndex);
@@ -321,25 +336,31 @@ public class DBHelper extends SQLiteOpenHelper {
             menu.setMenuImage(image);
             menu.setServer_ID(serverID);
 
-            String selectMenuProductQuery = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
-                    DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
-                    DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
-                    " from " + DBTableEntries.PRODUCT_TABLE_NAME +
-                    " inner join " + DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME +
-                    " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.MAP_MENU_TABLE_PRODUCT_ID +
-                    " where " + DBTableEntries.MAP_MENU_TABLE_MENU_ID + " = " + id;
-
-            Cursor cursorMenuProduct = db.rawQuery(selectMenuProductQuery, null);
-            ArrayList<Product> products = new ArrayList<>();
-            processProductCursor(cursorMenuProduct, products);
+            ArrayList<Product> products = getMenuProducts(id);
             menu.setProducts(products);
             menuList.add(menu);
 
-            cursorMenuProduct.close();
         }
         cursor.close();
 
         return menuList;
+    }
+
+    // The method returns all products into appropriate menu.
+    public ArrayList<Product> getMenuProducts(long menuID){
+        String selectMenuProductQuery = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
+                DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
+                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
+                " from " + DBTableEntries.PRODUCT_TABLE_NAME +
+                " inner join " + DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME +
+                " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.MAP_MENU_TABLE_PRODUCT_ID +
+                " where " + DBTableEntries.MAP_MENU_TABLE_MENU_ID + " = " + menuID;
+
+        Cursor cursorMenuProduct = db.rawQuery(selectMenuProductQuery, null);
+        ArrayList<Product> products = new ArrayList<>();
+        processProductCursor(cursorMenuProduct, products);
+        cursorMenuProduct.close();
+        return products;
     }
 
     // The method returns a list with all products.

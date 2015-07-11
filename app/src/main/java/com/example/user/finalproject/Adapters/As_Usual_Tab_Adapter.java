@@ -1,6 +1,7 @@
 package com.example.user.finalproject.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -40,7 +41,7 @@ public class As_Usual_Tab_Adapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.categories_list_view_item, null);
+            convertView = View.inflate(context, R.layout.as_usual_list_view_item, null);
             Holder h = new Holder();
 
             h.txtV = (TextView)convertView.findViewById(R.id.text_as_usual);
@@ -48,6 +49,7 @@ public class As_Usual_Tab_Adapter extends BaseAdapter {
         }
         Holder h = (Holder)convertView.getTag();
         As_Usual info = this.as_Usuals.get(position);
+
         h.txtV.setText(info.getName());
         return convertView;
     }

@@ -18,7 +18,9 @@ public class Menu {
         this.name = name;
         products = new ArrayList<>();
     }
-    public Menu(){}
+    public Menu(){
+        products = new ArrayList<>();
+    }
 
 
     public String getImage_link() {

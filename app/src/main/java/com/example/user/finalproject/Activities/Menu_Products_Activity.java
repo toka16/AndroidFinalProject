@@ -15,7 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class Menu_Products_Activity extends ActionBarActivity {
 
     private Product selected_Product;
     private int selected_item_index;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +44,15 @@ public class Menu_Products_Activity extends ActionBarActivity {
 
         // itogshi aq bazidan unda davitrio es arraylist
         // gadmocemul intentshi aris asusual_ID da imis mixedvit udna modzebno tableshi
-        products = new ArrayList<>();
+        intent = getIntent();
+        products = DBHelper.getInstance(this).getMenuProducts(intent.getLongExtra(Intent_Variables.menu_ID_Fof_Intent,0));
         adapter = new Product_Tab_Adapter(this,products);
         adapter.notifyDataSetChanged();
         productsListView.setAdapter(adapter);
 
 
+        TextView bla = (TextView) findViewById(R.id.menu_activity_header);
+        bla.setText(bla.getText() + intent.getStringExtra(Intent_Variables.menu_Name_For_Intent));
 
         productsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

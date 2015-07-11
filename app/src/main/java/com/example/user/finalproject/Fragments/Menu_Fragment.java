@@ -21,7 +21,9 @@ import com.example.user.finalproject.Activities.Menu_Products_Activity;
 import com.example.user.finalproject.Adapters.Menu_Tab_Adapter;
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
 import com.example.user.finalproject.Adapters.Profile_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Menu;
 import com.example.user.finalproject.model.Product;
 
@@ -66,14 +68,14 @@ public class Menu_Fragment extends Fragment {
             }
         });
 
-        // aqac bazidan unda sheavso
 
-        menus = new ArrayList<>();
+
+        menus = DBHelper.getInstance(inf.getContext()).allMenus();
         Menu_Tab_Adapter adapter = new Menu_Tab_Adapter(inf.getContext(),menus);
         menusListView.setAdapter(adapter);
 
-        Button add_to_basket = (Button) view.findViewById(R.id.details_about_menu);
-        add_to_basket.setOnClickListener(new View.OnClickListener() {
+        Button details_about_menu = (Button) view.findViewById(R.id.details_about_menu);
+        details_about_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -86,23 +88,21 @@ public class Menu_Fragment extends Fragment {
                     return;
                 }
 
-
-
                 // !!!!!!!!! tableshic udna chaagdo basketis
 
                 selected_item_index = -1;
-                TextView temp = (TextView)view.findViewById(R.id.chosen_product_text);
+                TextView temp = (TextView)view.findViewById(R.id.chosen_menu);
                 temp.setText("მონიშნული მენიუ: ");
 
-                // !!!!!!!!!!
-                // itogshi aq gaatan menus ID-s da dastartav axal activitiees
                 Intent intent = new Intent(getActivity(),Menu_Products_Activity.class);
+                intent.putExtra(Intent_Variables.menu_ID_Fof_Intent,selected_menu.getDb_ID());
+                intent.putExtra(Intent_Variables.menu_Name_For_Intent,selected_menu.getName());
                 startActivity(intent);
             }
         });
 
-        Button go_to_basket = (Button) view.findViewById(R.id.go_to_basket_from_menu_tab);
-        go_to_basket.setOnClickListener(new View.OnClickListener() {
+        Button go_to_basket_from_menu_tab = (Button) view.findViewById(R.id.go_to_basket_from_menu_tab);
+        go_to_basket_from_menu_tab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

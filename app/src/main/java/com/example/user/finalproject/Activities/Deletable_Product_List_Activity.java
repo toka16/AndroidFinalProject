@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
         products = fromBase();
 
         // aq yvela productis bazidan unda wmaoigo
-        allProducts = fromBase();
+        allProducts = (ArrayList)DBHelper.getInstance(getApplicationContext()).allProducts();
 
         allProductsAdapter = new Product_Tab_Adapter(this,allProducts);
         allProductsAdapter.notifyDataSetChanged();
