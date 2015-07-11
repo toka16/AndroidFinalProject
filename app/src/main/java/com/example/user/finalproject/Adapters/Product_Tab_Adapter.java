@@ -42,7 +42,7 @@ public class Product_Tab_Adapter extends BaseAdapter{
             Holder h = new Holder();
 
             h.txtV = (TextView)convertView.findViewById(R.id.product_text);
-            // aqve suratis setic unda gauketo
+            h.img = (ImageView)convertView.findViewById(R.id.default_img);
             convertView.setTag(h);
         }
         Holder h = (Holder)convertView.getTag();

@@ -44,6 +44,7 @@ public class Menu_Tab_Adapter extends BaseAdapter{
             Holder h = new Holder();
 
             h.txtV = (TextView)convertView.findViewById(R.id.product_text);
+            h.img = (ImageView)convertView.findViewById(R.id.default_img_for_menu);
             // aqve suratis setic unda gauketo
             convertView.setTag(h);
         }
