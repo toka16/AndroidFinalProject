@@ -6,6 +6,7 @@ public class Product {
     private String description;
     private double price;
     private String image_link;
+    private byte[] product_image;
 
     private long db_ID;
     private int server_ID;
@@ -67,5 +68,13 @@ public class Product {
 
     public String toString(){
         return "name: " + name + ", description: " + description + ", price: " + price;
+    }
+
+    public void setProductImage(byte[] image){
+        product_image = image;
+    }
+
+    public byte[] getProductImage(){
+        return product_image;
     }
 }

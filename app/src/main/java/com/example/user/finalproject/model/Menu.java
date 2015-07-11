@@ -8,6 +8,7 @@ public class Menu {
     private String description;
     private double price;
     private String image_link;
+    private byte[] menu_image;
 
     private long db_ID;
     private int server_ID;
@@ -76,6 +77,13 @@ public class Menu {
         return price;
     }
 
+    public void setMenuImage(byte[] image){
+        menu_image = image;
+    }
+
+    public byte[] getMenuImage(){
+        return menu_image;
+    }
 
     public String toString(){
         return "name: " + name + ", description: " + description + ", price: " + price;
