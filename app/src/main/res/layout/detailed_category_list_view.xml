@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue">
+
+
+    <Button
+        android:id="@+id/from_category_add_to_basket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Add_to_basket_from_as_usual"
+        android:textAllCaps="false"
+        />
+
+
+    <TextView
+        android:id="@+id/detailed_category_activity_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "@string/category_filtered"
+        android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
+        />
+
+    <ListView
+        android:id="@+id/products_list_in_detailed_category_activity"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    </ListView>
+
+</LinearLayout>

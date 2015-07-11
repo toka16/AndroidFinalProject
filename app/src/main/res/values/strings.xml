@@ -28,7 +28,7 @@
     <string name="order">შეკვეთა</string>
     <string name="basket_products">შესაკვეთად გამზადებული პროდუქტები: </string>
 
-    <string name="Add_to_basket_from_as_usual">შეკვეთა</string>
+    <string name="Add_to_basket_from_as_usual">Add to basket</string>
 
     <string name="details_about_menu">Details</string>
     <string name="chosen_menu">მონიშნული მენიუ:</string>
@@ -37,7 +37,14 @@
 
     <string name="chosen_news_name">არჩეული სიახლე: </string>
 
+    <string name="categories">Categories</string>
+
 
     <string name="Product_chosen_from_all_products">პროდუქტი ყველა პროდუქტიდან: </string>
+
+    <string name="details_about_category">Details</string>
+    <string name="chosen_category_name">არჩეული კატეგორია: </string>
+
+    <string name="category_filtered">არჩეული კატეგორია: </string>
 
 </resources>
