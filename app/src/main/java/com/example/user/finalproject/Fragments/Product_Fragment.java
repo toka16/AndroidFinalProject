@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.finalproject.Activities.Basket_Activity;
+import com.example.user.finalproject.Activities.Categories_List_Activity;
 import com.example.user.finalproject.Activities.Deletable_Product_List_Activity;
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
 import com.example.user.finalproject.R;
@@ -105,6 +106,20 @@ public class Product_Fragment extends Fragment {
                 // egreve basketis intents davustartav
 
                 Intent intent = new Intent(getActivity(),Basket_Activity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        Button categories = (Button) view.findViewById(R.id.categories);
+        categories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                // egreve categories intents davustartav
+
+                Intent intent = new Intent(getActivity(), Categories_List_Activity.class);
                 startActivity(intent);
 
             }

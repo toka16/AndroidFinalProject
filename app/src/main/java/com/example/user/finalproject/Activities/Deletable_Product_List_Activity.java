@@ -102,7 +102,7 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
 
                 // da aqve bazashic unda chaagdo umartives
 
-                TextView chosen_product_field = (TextView) findViewById(R.id.choosen_text);
+                TextView chosen_product_field = (TextView) findViewById(R.id.products_for_as_usual);
                 chosen_product_field.setText("პროდუქტი ყველა პროდუქტიდან: ");
                 selected_item_index_for_all_products = -1;
             }

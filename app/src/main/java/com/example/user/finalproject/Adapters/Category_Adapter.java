@@ -1,5 +1,6 @@
 package com.example.user.finalproject.Adapters;
 
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,28 +9,29 @@ import android.widget.TextView;
 
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.model.As_Usual;
+import com.example.user.finalproject.model.Category;
 
 import java.util.ArrayList;
 
+public class Category_Adapter extends BaseAdapter{
 
-public class As_Usual_Tab_Adapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<As_Usual> as_Usuals;
+    private ArrayList<Category> categories;
 
-    public As_Usual_Tab_Adapter(Context context , ArrayList<As_Usual> as_Usuals) {
+    public Category_Adapter(Context context , ArrayList<Category> categories) {
         this.context = context;
-        this.as_Usuals = as_Usuals;
+        this.categories = categories;
     }
 
     @Override
     public int getCount() {
-        return this.as_Usuals.size();
+        return this.categories.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.as_Usuals.get(position);
+        return this.categories.get(position);
     }
 
     @Override
@@ -40,14 +42,14 @@ public class As_Usual_Tab_Adapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.categories_list_view_item, null);
+            convertView = View.inflate(context, R.layout.as_usual_list_view_item, null);
             Holder h = new Holder();
 
-            h.txtV = (TextView)convertView.findViewById(R.id.text_as_usual);
+            h.txtV = (TextView)convertView.findViewById(R.id.category_name);
             convertView.setTag(h);
         }
         Holder h = (Holder)convertView.getTag();
-        As_Usual info = this.as_Usuals.get(position);
+        Category info = this.categories.get(position);
         h.txtV.setText(info.getName());
         return convertView;
     }
