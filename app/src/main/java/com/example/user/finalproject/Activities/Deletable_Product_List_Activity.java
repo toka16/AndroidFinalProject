@@ -30,17 +30,35 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
     private Product selected_Product;
     private int selected_item_index;
 
+    private ArrayList<Product> allProducts ;
+    private ListView allProductsListView;
+    public static Product_Tab_Adapter allProductsAdapter;
+
+    private Product selected_Product_from_all_products;
+    private int selected_item_index_for_all_products;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deletable_product_list_view);
 
         selected_item_index = -1;
+        selected_item_index_for_all_products = -1;
+
         productsListView = (ListView) findViewById(R.id.deletable_list_view_for_products);
+        allProductsListView = (ListView) findViewById(R.id.all_products);
 
         // itogshi aq bazidan unda davitrio es arraylist
         // gadmocemul intentshi aris asusual_ID da imis mixedvit udna modzebno tableshi
-        products = new ArrayList<>();
+        products = fromBase();
+
+        // aq yvela productis bazidan unda wmaoigo
+        allProducts = fromBase();
+
+        allProductsAdapter = new Product_Tab_Adapter(this,allProducts);
+        allProductsAdapter.notifyDataSetChanged();
+        allProductsListView.setAdapter(allProductsAdapter);
+
         adapter = new Product_Tab_Adapter(this,products);
         adapter.notifyDataSetChanged();
         productsListView.setAdapter(adapter);
@@ -57,6 +75,39 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
             }
         });
 
+        allProductsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
+                selected_item_index_for_all_products = position;
+                selected_Product_from_all_products = allProducts.get(position);
+                TextView chosen_product_field = (TextView) findViewById(R.id.products_for_as_usual);
+                chosen_product_field.setText("პროდუქტი ყველა პროდუქტიდან: " + selected_Product_from_all_products.getName());
+            }
+        });
+
+        Button addButton = (Button) findViewById(R.id.add_product_in_as_usual);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (selected_item_index_for_all_products < 0) {
+                    Toast toast;
+                    toast = Toast.makeText(getApplicationContext(), "You haven`t marked Product from allProductsList", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
+                products.add(selected_Product_from_all_products);
+                adapter.notifyDataSetChanged();
+
+                // da aqve bazashic unda chaagdo umartives
+
+                TextView chosen_product_field = (TextView) findViewById(R.id.choosen_text);
+                chosen_product_field.setText("პროდუქტი ყველა პროდუქტიდან: ");
+                selected_item_index_for_all_products = -1;
+            }
+        });
+
         Button deleteButton = (Button) findViewById(R.id.delete_product_from_as_usual);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +121,7 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
                     return;
                 }
                 products.remove(selected_item_index);
+                adapter.notifyDataSetChanged();
                 TextView chosen_product_field = (TextView) findViewById(R.id.choosen_text);
                 chosen_product_field.setText("მონიშნული პროდუქტი: ");
                 selected_item_index = -1;
@@ -97,6 +149,24 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
 
     }
 
+
+    private ArrayList<Product> fromBase(){
+
+        ArrayList<Product> result = new ArrayList<>();
+
+        // aq realurad basidan unda wamovigot es productebi
+
+
+        Product temp = new Product("burger","gemrielia simon");
+        result.add(temp);
+
+        Product temp2 = new Product("nayini","esec gemrielia simon");
+        result.add(temp2);
+
+        Product temp3 = new Product("free","ramdens cham ra ubedurebaa");
+        result.add(temp3);
+        return result;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

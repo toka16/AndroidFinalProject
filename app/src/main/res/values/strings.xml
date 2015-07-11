@@ -18,7 +18,8 @@
 
     <string name="Products_Filtered">თქვენი არჩეული "როგორც ყოველთვის": </string>
     <string name="Product_chosen">მონიშნული პროდუქტი: </string>
-    <string name="delete_product_from_as_usual">წაშალე პროდუქტი</string>
+    <string name="delete_product_from_as_usual">წაშალე</string>
+    <string name="add_product_in_as_usual">დაამატე</string>
 
     <string name="add_to_basket">Add to basket</string>
     <string name="go_to_basket">Go to basket</string>
@@ -36,5 +37,7 @@
 
     <string name="chosen_news_name">არჩეული სიახლე: </string>
 
+
+    <string name="Product_chosen_from_all_products">პროდუქტი ყველა პროდუქტიდან: </string>
 
 </resources>

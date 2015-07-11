@@ -15,9 +15,7 @@ import com.example.user.finalproject.model.Product;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-/**
- * Created by toka on 7/10/2015.
- */
+
 public class App extends Application{
     private static final String SHARED_PREFERENCES_NAME = "final_project_shared_preferences";
     private static final String SHARED_PREFERENCES_COOKIE = "cookie";

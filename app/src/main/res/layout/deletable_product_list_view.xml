@@ -21,8 +21,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         android:background="@color/blue">
+
+        <Button
+            android:id="@+id/add_product_in_as_usual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_product_in_as_usual"
+            android:layout_weight="1"
+            />
 
         <Button
             android:id="@+id/delete_product_from_as_usual"
@@ -55,7 +62,23 @@
     <ListView
         android:id="@+id/deletable_list_view_for_products"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+    </ListView>
+
+    <TextView
+        android:id="@+id/products_for_as_usual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "@string/Product_chosen_from_all_products"
+        android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
+        />
+
+    <ListView
+        android:id="@+id/all_products"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
     </ListView>
 
 </LinearLayout>
