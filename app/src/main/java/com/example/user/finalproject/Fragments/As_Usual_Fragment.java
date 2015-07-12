@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.example.user.finalproject.Activities.Deletable_Product_List_Activity;
 import com.example.user.finalproject.Adapters.As_Usual_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.As_Usual;
 import com.example.user.finalproject.model.Product;
 
@@ -60,7 +62,8 @@ public class As_Usual_Fragment extends Fragment {
 
 
         // aq unda wamoigo bazidan
-        as_Usuals = new ArrayList<>();
+
+        as_Usuals = DBHelper.getInstance(inf.getContext()).allAsUsual();
 
         // aq sheidzleba shecdoma iyos miubrundi da naxe
         adapter = new As_Usual_Tab_Adapter(inf.getContext(),as_Usuals);
@@ -120,7 +123,7 @@ public class As_Usual_Fragment extends Fragment {
                     as_Usuals.add(new_as_usual);
                     adapter.notifyDataSetChanged();
 
-                    // aq kidev unda bazashi chamateba da id-is dasetva axlad sheqmnil Asusualze
+                    DBHelper.getInstance(inf.getContext()).insertNewAsUsual(new_as_usual);
 
 
                 }
@@ -133,25 +136,10 @@ public class As_Usual_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if( selected_item_index >= 0){
-//                    long fromBaseTodelete = as_Usuals.get(selected_item_index).getDb_ID();
-//
-//                    As_Usual.base.delete(Entry_Constants.TABLE_NAME_FOR_CATEGORIES, "ID=?", new String[]{Integer.toString(fromBaseTodelete)});
-
-
-
-//                    ContentValues values1 = new ContentValues();
-//                    values1.put(Entry_Constants.COLUMN_NAME_EXPENSES_CATEGORY_ID, 6);
-//
-//                    App.base.update(Entry_Constants.TABLE_NAME_FOR_EXPENSES,values1,"CategoryID="
-//                            + App.getCategories().get(selected_item_index).getId(),null);
-
 
                     as_Usuals.remove(selected_item_index);
-
-                    // aq aseve damchirdeba bazidan washla
-                    // aseve cxrilis gasuptaveba map products asusual
-
                     adapter.notifyDataSetChanged();
+                    DBHelper.getInstance(inf.getContext()).removeAsUsual(selected_As_Usual.getDb_ID());
                     selected_item_index = -1;
                     edit.setText("");
                 }else{
@@ -166,8 +154,6 @@ public class As_Usual_Fragment extends Fragment {
 
 
 
-        // basashi unda davaupdateot konkretul indexze mdebare categoriis saxeli
-        // bazis index daitrev ise rogorc deleteshi
         Button updateButton = (Button) view.findViewById(R.id.updateBtn);
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,13 +163,9 @@ public class As_Usual_Fragment extends Fragment {
 
                     as_Usuals.get(selected_item_index).setName(edit.getText().toString());
                     adapter.notifyDataSetChanged();
+                    DBHelper.getInstance(inf.getContext()).asUsualUpdate
+                            (as_Usuals.get(selected_item_index).getDb_ID(),(as_Usuals.get(selected_item_index).getName()));
 
-                    //aq damchideba bazashi cvlilebac
-
-//                    ContentValues values = new ContentValues();
-//                    values.put(Entry_Constants.COLUMN_NAME_CATEGORIES_NAME, App.getCategories().get(selected_item_index).getName());
-//
-//                    App.base.update(Entry_Constants.TABLE_NAME_FOR_CATEGORIES,values,"ID=" +App.getCategories().get(selected_item_index).getId(),null);
                     selected_item_index = -1;
                     edit.setText("");
                 }else{
@@ -193,6 +175,8 @@ public class As_Usual_Fragment extends Fragment {
                     toast.show();
                 }
 
+
+
             }
         });
 
@@ -200,25 +184,15 @@ public class As_Usual_Fragment extends Fragment {
         goToAsUsualButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // aq daistarteba axali intenti
                 if( selected_item_index < 0){
                     Toast toast = Toast.makeText(inf.getContext(), "Please select category to get  more details", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
                     toast.show();
                     return;
                 }
-
-
-                // Y U R A D G E B A  !!!!!!!!!!!!!!!!!!!!!!!
-
                 Long concrete_as_usual_db_id = as_Usuals.get(selected_item_index).getDb_ID();
-                //aq kide dastarte axali intenti da gadaeci es db_id
-
-
-//                ar dagaviwydes am intis gataneba tore iqet ver gaavseb arraylist
-//
-//
                 Intent intent = new Intent(getActivity(),Deletable_Product_List_Activity.class);
+                intent.putExtra(Intent_Variables.as_Usual_ID_Fof_Intent,concrete_as_usual_db_id);
                 startActivity(intent);
 
             }

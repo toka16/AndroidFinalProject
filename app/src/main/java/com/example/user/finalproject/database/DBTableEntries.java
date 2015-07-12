@@ -46,4 +46,19 @@ public class DBTableEntries  {
     public static final String USER_FIELD_NAME_COLUMN = "user_fields";
     public static final String USER_FILED_VALUE_COLUMN = "user_values";
 
+    public static final String BASKET_TABLE_NAME = "Basket";
+    public static final String BASKET_ID = "basket_id";
+    public static final String BASKET_PRODUCT_ID = "basket_product_id";
+    public static final String BASKET_PRODUCT_NUMBER = "basket_product_quantity";
+
+    public static final String AS_USUAL_TABLE_NAME = "AsUsual";
+    public static final String AS_USUAL_ID = "as_usual_id";
+    public static final String AS_USUAL_NAME = "as_usual_name";
+    public static final String AS_USUAL_PRICE = "as_usual_price";
+
+    public static final String MAP_AS_USUAL_PRODUCT_TABLE_NAME = "MapAsUsualProduct";
+    public static final String MAP_AS_USUAL_PRODUCT_TABLE_ID = "map_as_usual_product_table_id";
+    public static final String MAP_AS_USUAL_PRODUCT_AS_USUAL_ID = "map_as_usual_product_as_usual_id";
+    public static final String MAP_AS_USUAL_PRODUCT_PRODUCT_ID = "map_as_usual_product_product_id";
+
 }

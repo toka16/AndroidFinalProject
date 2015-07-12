@@ -21,6 +21,7 @@ import com.example.user.finalproject.Activities.Deletable_Product_List_Activity;
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.database.DBHelper;
+import com.example.user.finalproject.model.As_Usual;
 import com.example.user.finalproject.model.Category;
 import com.example.user.finalproject.model.Menu;
 import com.example.user.finalproject.model.News;
@@ -169,12 +170,21 @@ public class Product_Fragment extends Fragment {
         News news = new News();
         news.setName("siaxlea gvewviet ra ");
         news.setDescription("viketebit rame tu ar iyide ");
+        news.setFromDate("2012-05-07");
+        news.setToDate("2016-05-07");
 
-//        try {
-//            bla.insertNews(news);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            bla.insertNews(news);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        As_Usual as_usual = new As_Usual("am wams damatebuli");
+        as_usual.getProducts().add(temp);
+        as_usual.getProducts().add(temp2);
+        as_usual.getProducts().add(temp3);
+
+        bla.insertNewAsUsual(as_usual);
 
     }
 

@@ -20,6 +20,7 @@ import com.example.user.finalproject.Activities.Detailed_News;
 import com.example.user.finalproject.Adapters.News_Tab_Adapter;
 import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.News;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class News_Fragment extends Fragment {
 
         // aqac bazidan unda sheavso
 
-        news = new ArrayList<>();
+        news = (ArrayList)DBHelper.getInstance(inf.getContext()).allNews();
 
         News_Tab_Adapter adapter = new News_Tab_Adapter(inf.getContext(),news);
         menusListView.setAdapter(adapter);

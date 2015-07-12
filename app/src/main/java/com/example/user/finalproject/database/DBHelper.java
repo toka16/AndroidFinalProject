@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.user.finalproject.model.As_Usual;
 import com.example.user.finalproject.model.Category;
 import com.example.user.finalproject.model.Menu;
 import com.example.user.finalproject.model.News;
@@ -53,8 +54,8 @@ public class DBHelper extends SQLiteOpenHelper {
             DBTableEntries.NEWS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DBTableEntries.NEWS_NAME + " NVARCHAR(64)," +
             DBTableEntries.NEWS_DESCRIPTION + " TEXT," +
-            DBTableEntries.NEWS_FROM_DATE + " TIMESTAMP," +
-            DBTableEntries.NEWS_TO_DATE + " TIMESTAMP," +
+            DBTableEntries.NEWS_FROM_DATE + " DATE," +
+            DBTableEntries.NEWS_TO_DATE + " DATE," +
             DBTableEntries.NEWS_SERVER_ID + " INT"
         + " )";
 
@@ -84,13 +85,33 @@ public class DBHelper extends SQLiteOpenHelper {
             DBTableEntries.USER_FILED_VALUE_COLUMN + " NVARCHAR(32)"
         + " )";
 
+    private static final String CREATE_BASKET_TABLE = " CREATE TABLE " +
+            DBTableEntries.BASKET_TABLE_NAME + " ( " +
+            DBTableEntries.BASKET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.BASKET_PRODUCT_ID + " LONG"
+            + " )";
+
+    private static final String CREATE_AS_USUAL_TABLE = " CREATE TABLE " +
+            DBTableEntries.AS_USUAL_TABLE_NAME + " ( " +
+            DBTableEntries.AS_USUAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.AS_USUAL_NAME + " NVARCHAR(128)," +
+            DBTableEntries.AS_USUAL_PRICE + " DOUBLE"
+            + " )";
+
+    private static final String CREATE_MAP_AS_USUAL_PRODUCT_TABLE = " CREATE TABLE " +
+            DBTableEntries.MAP_AS_USUAL_PRODUCT_TABLE_NAME + " ( " +
+            DBTableEntries.MAP_AS_USUAL_PRODUCT_TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            DBTableEntries.MAP_AS_USUAL_PRODUCT_AS_USUAL_ID + " LONG," +
+            DBTableEntries.MAP_AS_USUAL_PRODUCT_PRODUCT_ID + " LONG"
+            + " )";
+
     private static final String NAME = "FinalProjectDB";
     private static final int VERSION = 1;
     private SQLiteDatabase db;
 
     private static final String INSERT_QUERY_INTO_USER =
             "insert into " + DBTableEntries.USER_TABLE_NAME + "(" + DBTableEntries.USER_FIELD_NAME_COLUMN  + ")" +
-            " values " + "('name'), ('surname'), ('email'), ('password'), ('phone'), ('card_number'), ('primary_number')";
+            " values " + "('Name '), ('Last Name '), ('Private Number '), ('Mobile '), ('Email '), ('Card Number ')";
 
     private DBHelper(Context context) {
         super(context, NAME, null, VERSION);
@@ -115,7 +136,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_MENU_TABLE);
         db.execSQL(CREATE_MAP_MENU_CATEGORY);
         db.execSQL(CREATE_USER_TABLE);
-
+        db.execSQL(CREATE_BASKET_TABLE);
+        db.execSQL(CREATE_AS_USUAL_TABLE);
+        db.execSQL(CREATE_MAP_AS_USUAL_PRODUCT_TABLE);
 
         db.execSQL(INSERT_QUERY_INTO_USER); // inserts into user table first column key variables.
     }
@@ -129,6 +152,9 @@ public class DBHelper extends SQLiteOpenHelper {
         deleteTable(DBTableEntries.MENU_TABLE_NAME);
         deleteTable(DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME);
         deleteTable(DBTableEntries.USER_TABLE_NAME);
+        deleteTable(DBTableEntries.BASKET_TABLE_NAME);
+        deleteTable(DBTableEntries.AS_USUAL_TABLE_NAME);
+        deleteTable(DBTableEntries.MAP_AS_USUAL_PRODUCT_TABLE_NAME);
     }
 
     // The helper method drops table.
@@ -144,7 +170,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(DBTableEntries.USER_FILED_VALUE_COLUMN, information.getValue());
 
-        long id = db.update(DBTableEntries.USER_TABLE_NAME, values, DBTableEntries.USER_FIELD_NAME_COLUMN + "=" + information.getRowName(), null);
+        long id = db.update(DBTableEntries.USER_TABLE_NAME, values, DBTableEntries.USER_FIELD_NAME_COLUMN + "='" + information.getRowName() + "'", null);
         information.setDb_ID(id);
     }
 
@@ -228,6 +254,28 @@ public class DBHelper extends SQLiteOpenHelper {
         news.setDb_ID(id);
     }
 
+    public ArrayList<User_Information> allUserInformation(){
+        ArrayList<User_Information> users = new ArrayList<>();
+        String selectQuery = "select * from " + DBTableEntries.USER_TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int idIndex = cursor.getColumnIndexOrThrow(DBTableEntries.USER_ENTRY_ID);
+        int rawNameIndex = cursor.getColumnIndexOrThrow(DBTableEntries.USER_FIELD_NAME_COLUMN);
+        int valueIndex = cursor.getColumnIndexOrThrow(DBTableEntries.USER_FILED_VALUE_COLUMN);
+        while(cursor.moveToNext()){
+            long id = cursor.getLong(idIndex);
+            String rawName = cursor.getString(rawNameIndex);
+            String valueName = cursor.getString(valueIndex);
+
+            User_Information user_information = new User_Information();
+            user_information.setDb_ID(id);
+            user_information.setRowName(rawName);
+            user_information.setValue(valueName);
+
+            users.add(user_information);
+        }
+        return users;
+    }
 
     // The method fills a given news list by news.
     public List<News> allNews(){
@@ -305,6 +353,123 @@ public class DBHelper extends SQLiteOpenHelper {
         processProductCursor(cursorCategoryProducts, products);
         cursorCategoryProducts.close();
         return products;
+    }
+
+    // The method adds a product id into basket.
+    public void insertNewProductIntoBasket(long productID){
+        ContentValues values = new ContentValues();
+        values.put(DBTableEntries.BASKET_PRODUCT_ID, productID);
+
+        db.insert(DBTableEntries.BASKET_TABLE_NAME, null, values);
+    }
+
+
+    public ArrayList<Product> getBasketProducts(){
+        ArrayList<Product> products = new ArrayList<>();
+        String selectQuery = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
+                DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
+                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
+                " from " + DBTableEntries.PRODUCT_TABLE_NAME +
+                " inner join " + DBTableEntries.BASKET_TABLE_NAME +
+                " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.BASKET_PRODUCT_ID;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        processProductCursor(cursor, products);
+        cursor.close();
+
+        return products;
+    }
+
+
+    public ArrayList<As_Usual> allAsUsual(){
+        ArrayList<As_Usual> asUsualArrayList = new ArrayList<>();
+        String selectAsUsualInfo = "select * from " + DBTableEntries.AS_USUAL_TABLE_NAME;
+        Cursor asUsualInfoCursor = db.rawQuery(selectAsUsualInfo, null);
+
+        int idIndex = asUsualInfoCursor.getColumnIndexOrThrow(DBTableEntries.AS_USUAL_ID);
+        int nameIndex = asUsualInfoCursor.getColumnIndexOrThrow(DBTableEntries.AS_USUAL_NAME);
+        int priceIndex = asUsualInfoCursor.getColumnIndexOrThrow(DBTableEntries.AS_USUAL_PRICE);
+        while(asUsualInfoCursor.moveToNext()){
+            long id = asUsualInfoCursor.getLong(idIndex);
+            String name = asUsualInfoCursor.getString(nameIndex);
+            double price = asUsualInfoCursor.getDouble(priceIndex);
+
+            As_Usual as_usual = new As_Usual(name);
+            as_usual.setDb_ID(id);
+            as_usual.setPrice(price);
+
+            ArrayList<Product> products = getAsUsualProducts(id);
+            as_usual.setProducts(products);
+
+            asUsualArrayList.add(as_usual);
+        }
+
+        return asUsualArrayList;
+    }
+
+    public ArrayList<Product> getAsUsualProducts(long asUsualID){
+        ArrayList<Product> products = new ArrayList<>();
+        String selectQuery = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
+                DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
+                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
+                " from " + DBTableEntries.PRODUCT_TABLE_NAME +
+                " inner join " + DBTableEntries.MAP_AS_USUAL_PRODUCT_TABLE_NAME +
+                " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.MAP_AS_USUAL_PRODUCT_PRODUCT_ID +
+                " where " + DBTableEntries.MAP_AS_USUAL_PRODUCT_AS_USUAL_ID + "=" + asUsualID;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        processProductCursor(cursor, products);
+        cursor.close();
+        return products;
+    }
+
+    public News getNews(long newsID){
+        String selectQuery = "select * from " + DBTableEntries.NEWS_TABLE_NAME +
+                " where " + DBTableEntries.NEWS_ID + " = " + newsID;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int idIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_ID);
+        int nameIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_NAME);
+        int descriptionIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_DESCRIPTION);
+        int fromDateIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_FROM_DATE);
+        int toDateIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_TO_DATE);
+        int serverIDIndex = cursor.getColumnIndexOrThrow(DBTableEntries.NEWS_SERVER_ID);
+
+        cursor.moveToFirst();
+        News news = new News();
+        news.setDb_ID(cursor.getLong(idIndex));
+        news.setName(cursor.getString(nameIndex));
+        news.setDescription(cursor.getString(descriptionIndex));
+        news.setFromDate(cursor.getString(fromDateIndex));
+        news.setToDate(cursor.getString(toDateIndex));
+        news.setServer_ID(cursor.getInt(serverIDIndex));
+
+        return news;
+    }
+
+    // The method insert new as_usual object into database.
+    public void insertNewAsUsual(As_Usual as_usual){
+        ContentValues values = new ContentValues();
+        values.put(DBTableEntries.AS_USUAL_NAME, as_usual.getName());
+        values.put(DBTableEntries.AS_USUAL_PRICE, as_usual.getPrice());
+
+        long asUsualID = db.insert(DBTableEntries.AS_USUAL_TABLE_NAME, null, values);
+        as_usual.setDb_ID(asUsualID);
+
+        List<Product> products = as_usual.getProducts();
+        for(int i = 0; i < products.size(); i++){
+            Product product = products.get(i);
+            fillMapAsUsualProduct(asUsualID, product.getDb_ID());
+        }
+    }
+
+    // The helper method fills MapAsUsualProduct table.
+    private void fillMapAsUsualProduct(long as_usualID, long productID){
+        ContentValues values = new ContentValues();
+        values.put(DBTableEntries.MAP_AS_USUAL_PRODUCT_AS_USUAL_ID, as_usualID);
+        values.put(DBTableEntries.MAP_AS_USUAL_PRODUCT_PRODUCT_ID, productID);
+
+        db.insert(DBTableEntries.MAP_AS_USUAL_PRODUCT_TABLE_NAME, null, values);
     }
 
     // The method returns all menus from database.
@@ -398,5 +563,81 @@ public class DBHelper extends SQLiteOpenHelper {
 
             productList.add(product);
         }
+    }
+
+    public void asUsualUpdate(long asUsualID, String newName){
+        ContentValues values = new ContentValues();
+        values.put(DBTableEntries.AS_USUAL_NAME, newName);
+
+        db.update(DBTableEntries.AS_USUAL_TABLE_NAME, values, DBTableEntries.AS_USUAL_ID + "=" + asUsualID, null);
+    }
+
+    public void removeAsUsual(long asUsualID){
+        String whereClause = DBTableEntries.MAP_AS_USUAL_PRODUCT_AS_USUAL_ID + "=" + asUsualID;
+        db.delete(DBTableEntries.MAP_AS_USUAL_PRODUCT_TABLE_NAME, whereClause, null);
+
+        db.delete(DBTableEntries.AS_USUAL_TABLE_NAME, DBTableEntries.AS_USUAL_ID + "=" + asUsualID, null);
+    }
+
+    public void asUsualAddProduct(long asUsualID, long productID){
+        fillMapAsUsualProduct(asUsualID, productID);
+    }
+
+    public void asUsualRemoveProduct(long asUsualID, long productID){
+        String whereClause = DBTableEntries.MAP_AS_USUAL_PRODUCT_AS_USUAL_ID + "=" + asUsualID + " and " +
+                DBTableEntries.MAP_AS_USUAL_PRODUCT_PRODUCT_ID + "=" + productID;
+        db.delete(DBTableEntries.MAP_AS_USUAL_PRODUCT_TABLE_NAME, whereClause, null);
+    }
+
+
+    public void removeNews(long newsID){
+        db.delete(DBTableEntries.NEWS_TABLE_NAME, DBTableEntries.NEWS_ID + "=" + newsID, null);
+    }
+
+    public void removeProduct(long productID){
+        db.delete(DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME, DBTableEntries.MAP_PRODUCT_ID + "=" + productID, null);
+
+        db.delete(DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME, DBTableEntries.MAP_MENU_TABLE_PRODUCT_ID + "=" + productID, null);
+
+        db.delete(DBTableEntries.PRODUCT_TABLE_NAME, DBTableEntries.PRODUCT_ID + "=" + productID, null);
+    }
+
+    public void removeCategory(long categoryID){
+        db.delete(DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME, DBTableEntries.MAP_ID + "=" + categoryID, null);
+
+        db.delete(DBTableEntries.CATEGORY_TABLE_NAME, DBTableEntries.CATEGORY_ID + "=" + categoryID, null);
+    }
+
+    public void categoryAddProduct(long categoryID, long productID){
+        fillMapCategoryProduct(categoryID, productID);
+    }
+
+    public void categoryRemoveProduct(long categoryID, long productID){
+        String whereClause = DBTableEntries.MAP_CATEGORY_ID + "=" + categoryID + " and " + DBTableEntries.MAP_PRODUCT_ID + "=" + productID;
+        db.delete(DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME, whereClause, null);
+    }
+
+    public void removeMenu(long menuID){
+        db.delete(DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME, DBTableEntries.MAP_MENU_TABLE_MENU_ID + "=" + menuID, null);
+
+        db.delete(DBTableEntries.MENU_TABLE_NAME, DBTableEntries.MENU_ID + "=" + menuID, null);
+    }
+
+    public void menuAddProduct(long menuID, long productID){
+        fillMapMenuProduct(menuID, productID);
+    }
+
+    public void menuRemoveProduct(long menuID, long productID){
+        String whereClause = DBTableEntries.MAP_MENU_TABLE_MENU_ID + "=" + menuID + " and " +
+                DBTableEntries.MAP_MENU_TABLE_PRODUCT_ID + productID;
+        db.delete(DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME, whereClause, null);
+    }
+
+    public void removeBasket(){
+//        String truncateQuery = "truncate table " + DBTableEntries.BASKET_TABLE_NAME;
+//
+//        db.execSQL(truncateQuery);
+
+        db.delete(DBTableEntries.BASKET_TABLE_NAME, null, null);
     }
 }

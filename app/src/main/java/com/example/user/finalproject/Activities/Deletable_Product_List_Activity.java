@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
@@ -37,6 +38,7 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
 
     private Product selected_Product_from_all_products;
     private int selected_item_index_for_all_products;
+    private long as_usualDBID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,11 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
         productsListView = (ListView) findViewById(R.id.deletable_list_view_for_products);
         allProductsListView = (ListView) findViewById(R.id.all_products);
 
-        // itogshi aq bazidan unda davitrio es arraylist
-        // gadmocemul intentshi aris asusual_ID da imis mixedvit udna modzebno tableshi
-        products = fromBase();
+
+        Intent intent = getIntent();
+
+        as_usualDBID = intent.getLongExtra(Intent_Variables.as_Usual_ID_Fof_Intent,0);
+        products = DBHelper.getInstance(this).getAsUsualProducts(as_usualDBID);
 
         // aq yvela productis bazidan unda wmaoigo
         allProducts = (ArrayList)DBHelper.getInstance(getApplicationContext()).allProducts();
@@ -101,7 +105,8 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
                 products.add(selected_Product_from_all_products);
                 adapter.notifyDataSetChanged();
 
-                // da aqve bazashic unda chaagdo umartives
+                DBHelper.getInstance(getApplicationContext()).asUsualAddProduct
+                        (as_usualDBID,selected_Product_from_all_products.getDb_ID());
 
                 TextView chosen_product_field = (TextView) findViewById(R.id.products_for_as_usual);
                 chosen_product_field.setText("პროდუქტი ყველა პროდუქტიდან: ");
@@ -123,6 +128,7 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
                 }
                 products.remove(selected_item_index);
                 adapter.notifyDataSetChanged();
+                DBHelper.getInstance(getApplicationContext()).asUsualRemoveProduct(as_usualDBID,selected_Product.getDb_ID());
                 TextView chosen_product_field = (TextView) findViewById(R.id.choosen_text);
                 chosen_product_field.setText("მონიშნული პროდუქტი: ");
                 selected_item_index = -1;
@@ -134,12 +140,9 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-                // jer sanam shekveta gaketdeba da davstartav activities iqamde basketis table unda gavavso
-
-                // egreve basketis intents davustartav
+                for(int i = 0 ; i < products.size(); i++){
+                    DBHelper.getInstance(getApplicationContext()).insertNewProductIntoBasket(products.get(i).getDb_ID());
+                }
 
                 Intent intent = new Intent(getApplicationContext(),Basket_Activity.class);
                 startActivity(intent);
@@ -151,23 +154,6 @@ public class Deletable_Product_List_Activity extends ActionBarActivity {
     }
 
 
-    private ArrayList<Product> fromBase(){
-
-        ArrayList<Product> result = new ArrayList<>();
-
-        // aq realurad basidan unda wamovigot es productebi
-
-
-        Product temp = new Product("burger","gemrielia simon");
-        result.add(temp);
-
-        Product temp2 = new Product("nayini","esec gemrielia simon");
-        result.add(temp2);
-
-        Product temp3 = new Product("free","ramdens cham ra ubedurebaa");
-        result.add(temp3);
-        return result;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

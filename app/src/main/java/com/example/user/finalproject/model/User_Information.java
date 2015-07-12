@@ -10,7 +10,7 @@ public class User_Information {
     }
 
     public String getRowName(){
-        return this.rowName;
+        return this.rowName + " ";
     }
 
     public void setRowName(String rowName){

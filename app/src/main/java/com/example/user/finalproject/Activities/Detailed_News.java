@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
 import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
 
 import java.util.ArrayList;
@@ -30,15 +31,10 @@ public class Detailed_News extends ActionBarActivity {
 
         TextView temp = (TextView) findViewById(R.id.detailed_information_news);
 
-
-        // itogshi aq jer unda davitrio is iD rac intents dastartvisas gamoatanes
-        // mere bazidan davaselecto konkretuli ID -s mqone news
-        // mere gamovitano moqmedebis vada descriptioni da rac sachiro iqneba
-
         Intent intent = getIntent();
 
-        long newID = intent.getLongExtra(Intent_Variables.news_ID_Fof_Intent,0);
-        temp.setText("archeuli news -ia " + intent.getStringExtra(Intent_Variables.news_Name_For_Intent));
+        long newsID = intent.getLongExtra(Intent_Variables.news_ID_Fof_Intent,0);
+        temp.setText(DBHelper.getInstance(this).getNews(newsID).getDescription());
 
     }
 

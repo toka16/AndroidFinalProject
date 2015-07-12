@@ -76,8 +76,11 @@ public class Profile_Fragment extends Fragment {
                 }
 
                 User_Information temp = userInformation.get(selected_item_index);
+
                 temp.setValue(edit.getText().toString());
                 adapter.notifyDataSetChanged();
+                DBHelper.getInstance(inf.getContext()).insertUserInformation(userInformation.get(selected_item_index));
+
 
                 // aqve unda gaketdes bazashi cvlileba
 
@@ -129,29 +132,44 @@ public class Profile_Fragment extends Fragment {
         return view;
     }
 
+
+
+
+
     private ArrayList<User_Information> fromBase(){
-        ArrayList<User_Information> result = new ArrayList<>();
+        DBHelper bla = DBHelper.getInstance(inf.getContext());
         // aq realurad bazidan unda momqondes rogorc es rulebis magalitshi maqvs magrad droebit for ciklic kargia
         User_Information temp = new User_Information();
-        temp.setRowName("Name: ");
-        result.add(temp);
-        User_Information temp1 = new User_Information();
-        temp1.setRowName("Last Name: ");
-        result.add(temp1);
-        User_Information temp2 = new User_Information();
-        temp2.setRowName("Private number: ");
-        result.add(temp2);
-        User_Information temp3 = new User_Information();
-        temp3.setRowName("Mobile: ");
-        result.add(temp3);
-        User_Information temp4 = new User_Information();
-        temp4.setRowName("Email: ");
-        result.add(temp4);
-        User_Information temp5 = new User_Information();
-        temp5.setRowName("Card Number: ");
-        result.add(temp5);
+        temp.setRowName("Name");
+        temp.setValue("saxeli");
+        bla.insertUserInformation(temp);
 
-        return result;
+        User_Information temp1 = new User_Information();
+        temp1.setRowName("Last Name");
+        temp1.setValue("gvari");
+        bla.insertUserInformation(temp1);
+
+        User_Information temp2 = new User_Information();
+        temp2.setRowName("Private Number");
+        temp2.setValue("piradi nomeri");
+        bla.insertUserInformation(temp2);
+
+        User_Information temp3 = new User_Information();
+        temp3.setRowName("Mobile");
+        temp3.setValue("598-76-94-76");
+        bla.insertUserInformation(temp3);
+
+        User_Information temp4 = new User_Information();
+        temp4.setRowName("Email");
+        temp4.setValue("email");
+        bla.insertUserInformation(temp4);
+
+        User_Information temp5 = new User_Information();
+        temp5.setRowName("Card Number");
+        temp5.setValue("123123");
+        bla.insertUserInformation(temp5);
+
+        return bla.allUserInformation();
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
