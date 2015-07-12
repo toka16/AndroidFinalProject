@@ -80,6 +80,26 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".Activities.Sign_Up_Activity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".Activities.Log_in_Activity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

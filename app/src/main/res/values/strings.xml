@@ -9,7 +9,7 @@
     <string name="update_data">update your profile . . .</string>
     <string name="get_information">Information about row</string>
 
-    <string name="enter_data">Enter Name Here...</string>
+    <string name="enter_data">Enter Name Here . . .</string>
 
     <string name="Add_Entry">დაამატე</string>
     <string name="Delete_entry">წაშალე</string>
@@ -46,5 +46,18 @@
     <string name="chosen_category_name">არჩეული კატეგორია: </string>
 
     <string name="category_filtered">არჩეული კატეგორია: </string>
+
+    <string name="submit_button">Submit</string>
+    <string name="sign_up_button">Sign up</string>
+    <string name="mail_filed">Enter your mail . . .</string>
+    <string name="password_field">Enter your password . . .</string>
+
+    <string name="name_field">Enter your name . . .</string>
+    <string name="last_name_field">Enter your last name . . .</string>
+    <string name="private_number_field">Enter your phone number . . .</string>
+    <string name="mobile_field">Enter your mobile . . .</string>
+    <string name="email_field">Enter your email . . .</string>
+    <string name="card_number_field">Enter your card number . . .</string>
+    <string name="registration_button">Registration</string>
 
 </resources>
