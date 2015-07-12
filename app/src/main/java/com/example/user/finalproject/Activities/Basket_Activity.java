@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
 
 import java.util.ArrayList;
@@ -37,10 +38,9 @@ public class Basket_Activity extends ActionBarActivity {
         selected_item_index = -1;
         productsListView = (ListView) findViewById(R.id.deletable_list_view_for_basket);
 
-        // itogshi aq bazidan unda davitrio es arraylist
-        // ertadert tables shevexebi basket
 
-        products = new ArrayList<>();
+
+        products = DBHelper.getInstance(getApplicationContext()).getBasketProducts();
 
         adapter = new Product_Tab_Adapter(this,products);
         adapter.notifyDataSetChanged();
@@ -72,7 +72,9 @@ public class Basket_Activity extends ActionBarActivity {
                 }
                 products.remove(selected_item_index);
                 adapter.notifyDataSetChanged();
-                TextView chosen_product_field = (TextView) findViewById(R.id.choosen_text);
+                DBHelper.getInstance(getApplicationContext()).basketRemoveProduct(selected_Product.getDb_ID());
+
+                TextView chosen_product_field = (TextView) findViewById(R.id.chosen_product_text_first_tab);
                 chosen_product_field.setText("მონიშნული პროდუქტი: ");
                 selected_item_index = -1;
             }

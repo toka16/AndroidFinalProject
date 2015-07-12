@@ -42,8 +42,7 @@ public class Menu_Products_Activity extends ActionBarActivity {
         selected_item_index = -1;
         productsListView = (ListView) findViewById(R.id.products_list_in_menu_activity);
 
-        // itogshi aq bazidan unda davitrio es arraylist
-        // gadmocemul intentshi aris asusual_ID da imis mixedvit udna modzebno tableshi
+
         intent = getIntent();
         products = DBHelper.getInstance(this).getMenuProducts(intent.getLongExtra(Intent_Variables.menu_ID_Fof_Intent,0));
         adapter = new Product_Tab_Adapter(this,products);
@@ -73,12 +72,10 @@ public class Menu_Products_Activity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-                // jer sanam shekveta gaketdeba da davstartav activities iqamde basketis table unda gavavso
-
-                // egreve basketis intents davustartav
+                for(int i = 0; i < products.size(); i++){
+                    DBHelper.getInstance(getApplicationContext()).insertNewProductIntoBasket(products.get(i).getDb_ID());
+                }
 
                 Intent intent = new Intent(getApplicationContext(),Basket_Activity.class);
                 startActivity(intent);

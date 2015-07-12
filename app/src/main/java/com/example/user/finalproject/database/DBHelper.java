@@ -634,10 +634,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void removeBasket(){
-//        String truncateQuery = "truncate table " + DBTableEntries.BASKET_TABLE_NAME;
-//
-//        db.execSQL(truncateQuery);
-
         db.delete(DBTableEntries.BASKET_TABLE_NAME, null, null);
+    }
+
+    public void basketRemoveProduct(long productID){
+        db.delete(DBTableEntries.BASKET_TABLE_NAME, DBTableEntries.BASKET_PRODUCT_ID + "=" + productID, null);
     }
 }

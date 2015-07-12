@@ -98,7 +98,7 @@ public class Product_Fragment extends Fragment {
 
                 basket_products.add(products.get(selected_item_index));
 
-                // !!!!!!!!! tableshic udna chaagdo basketis
+                DBHelper.getInstance(inf.getContext()).insertNewProductIntoBasket(selected_product.getDb_ID());
 
 
                 selected_item_index = -1;
@@ -112,9 +112,6 @@ public class Product_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-                // egreve basketis intents davustartav
-
                 Intent intent = new Intent(getActivity(),Basket_Activity.class);
                 startActivity(intent);
 
@@ -126,8 +123,6 @@ public class Product_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-                // egreve categories intents davustartav
 
                 Intent intent = new Intent(getActivity(), Categories_List_Activity.class);
                 startActivity(intent);

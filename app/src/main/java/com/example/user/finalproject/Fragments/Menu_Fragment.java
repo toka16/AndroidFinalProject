@@ -88,7 +88,6 @@ public class Menu_Fragment extends Fragment {
                     return;
                 }
 
-                // !!!!!!!!! tableshic udna chaagdo basketis
 
                 selected_item_index = -1;
                 TextView temp = (TextView)view.findViewById(R.id.chosen_menu);
