@@ -10,9 +10,8 @@
         android:id="@+id/detailed_information_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text = "@string/chosen_menu"
+        android:text = "@string/chosen_news_name"
         />
-
 
 
 

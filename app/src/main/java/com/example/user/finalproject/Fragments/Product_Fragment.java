@@ -23,8 +23,10 @@ import com.example.user.finalproject.R;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Category;
 import com.example.user.finalproject.model.Menu;
+import com.example.user.finalproject.model.News;
 import com.example.user.finalproject.model.Product;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Product_Fragment extends Fragment {
@@ -163,6 +165,16 @@ public class Product_Fragment extends Fragment {
         menu.getProducts().add(temp3);
 
         bla.insertNewMenu(menu);
+
+        News news = new News();
+        news.setName("siaxlea gvewviet ra ");
+        news.setDescription("viketebit rame tu ar iyide ");
+
+        try {
+            bla.insertNews(news);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 

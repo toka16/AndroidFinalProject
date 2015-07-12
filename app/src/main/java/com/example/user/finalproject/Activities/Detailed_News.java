@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.model.Product;
 
@@ -34,7 +35,10 @@ public class Detailed_News extends ActionBarActivity {
         // mere bazidan davaselecto konkretuli ID -s mqone news
         // mere gamovitano moqmedebis vada descriptioni da rac sachiro iqneba
 
-        temp.setText("detail information section");
+        Intent intent = getIntent();
+
+        long newID = intent.getLongExtra(Intent_Variables.news_ID_Fof_Intent,0);
+        temp.setText("archeuli news -ia " + intent.getStringExtra(Intent_Variables.news_Name_For_Intent));
 
     }
 
