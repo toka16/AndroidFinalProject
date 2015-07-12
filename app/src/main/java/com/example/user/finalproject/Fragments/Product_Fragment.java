@@ -170,11 +170,11 @@ public class Product_Fragment extends Fragment {
         news.setName("siaxlea gvewviet ra ");
         news.setDescription("viketebit rame tu ar iyide ");
 
-        try {
-            bla.insertNews(news);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            bla.insertNews(news);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
