@@ -43,7 +43,7 @@ public class Sign_Up_Activity extends ActionBarActivity {
                     if(response == ServerHelper.ServerResponse.BAD_REQUEST){
                         ((TextView)findViewById(R.id.register_status)).setText("Email already in use");
                     }else if(response == ServerHelper.ServerResponse.OK){
-                        Intent intent = new Intent(Sign_Up_Activity.this, MainActivity.class);
+                        Intent intent = new Intent(Sign_Up_Activity.this, SpinnerActivity.class);
                         Sign_Up_Activity.this.startActivity(intent);
                     }else{
                         ((TextView)findViewById(R.id.register_status)).setText("Unknown error");

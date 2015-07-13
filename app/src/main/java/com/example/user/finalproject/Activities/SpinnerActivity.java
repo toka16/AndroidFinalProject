@@ -2,9 +2,13 @@ package com.example.user.finalproject.Activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 
 import com.example.user.finalproject.App;
+import com.example.user.finalproject.MainActivity;
+import com.example.user.finalproject.R;
 import com.example.user.finalproject.Server.ServerHelper;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Category;
@@ -24,6 +28,16 @@ public class SpinnerActivity extends Activity {
     private static final String SHARED_PREFERENCES_VERSION_MENUS = "menu_version";
     private static final String SHARED_PREFERENCES_VERSION_CATEGORIES = "categories_version";
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        sync();
+        Intent intent = new Intent(SpinnerActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
     private void sync(){
         SharedPreferences pref = getSharedPreferences(App.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         int cur_products_version = pref.getInt(SHARED_PREFERENCES_VERSION_PRODUCTS, -1);
@@ -31,7 +45,7 @@ public class SpinnerActivity extends Activity {
         int cur_menus_version = pref.getInt(SHARED_PREFERENCES_VERSION_MENUS, -1);
         int cur_categories_version = pref.getInt(SHARED_PREFERENCES_VERSION_CATEGORIES, -1);
 
-        ServerHelper helper = ServerHelper.getInstance();
+        ServerHelper helper = ServerHelper.getInstance("");
 
         int remote_products_version = helper.getProductsVersion();
         int remote_news_version = helper.getNewsVersion();
@@ -45,7 +59,7 @@ public class SpinnerActivity extends Activity {
             editor.putInt(SHARED_PREFERENCES_VERSION_PRODUCTS, remote_products_version);
             for(Product product : products){
                 System.out.println("product: "+product.getName());
-//                db.insertNewProduct(product);
+                db.insertNewProduct(product);
             }
         }
         if(cur_categories_version == -1 || cur_categories_version != remote_categories_version){
@@ -67,11 +81,7 @@ public class SpinnerActivity extends Activity {
             editor.putInt(SHARED_PREFERENCES_VERSION_NEWS, remote_news_version);
             for(News news : newses){
                 System.out.println("news: "+news.getName());
-//                try {
-//                    db.insertNews(news);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
+                db.insertNews(news);
             }
         }
         editor.commit();

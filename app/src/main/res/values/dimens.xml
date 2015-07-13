@@ -13,4 +13,6 @@
     <dimen name="from_caution_image2">5dp</dimen>
 
     <dimen name="contact_list_item_from_image">5dp</dimen>
+	
+	<dimen name="loadingTextSize">20dip</dimen>
 </resources>

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.user.finalproject.MainActivity;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.Server.ServerHelper;
 
@@ -29,7 +28,7 @@ public class Log_in_Activity extends ActionBarActivity {
                 }else{
                     ServerHelper.ServerResponse response = ServerHelper.getInstance().login(email, password);
                     if(response == ServerHelper.ServerResponse.OK){
-                        Intent intent = new Intent(Log_in_Activity.this, MainActivity.class);
+                        Intent intent = new Intent(Log_in_Activity.this, SpinnerActivity.class);
                         Log_in_Activity.this.startActivity(intent);
                     }else if(response == ServerHelper.ServerResponse.INVALID_USERNAME_OR_PASSWORD){
                         ((TextView)findViewById(R.id.login_status)).setText("Invalid Username or Password");

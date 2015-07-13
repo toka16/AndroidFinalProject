@@ -60,4 +60,5 @@
     <string name="card_number_field">Enter your card number . . .</string>
     <string name="registration_button">Registration</string>
 
+    <string name="loaded_items">მიმდინარეობს ჩამოტვირთვა . . .</string>
 </resources>
