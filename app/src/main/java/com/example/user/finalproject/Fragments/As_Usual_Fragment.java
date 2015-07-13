@@ -18,11 +18,11 @@ import android.widget.Toast;
 
 import com.example.user.finalproject.Activities.Deletable_Product_List_Activity;
 import com.example.user.finalproject.Adapters.As_Usual_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Bundle_Variables;
 import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.As_Usual;
-import com.example.user.finalproject.model.Product;
 
 import java.util.ArrayList;
 
@@ -197,6 +197,16 @@ public class As_Usual_Fragment extends Fragment {
 
             }
         });
+
+        if(savedInstanceState != null){
+            selected_item_index = savedInstanceState.getInt(Bundle_Variables.AS_USUAL_FRAGMENT_SELECT_PRODUCT_INDEX);
+            if(selected_item_index != -1){
+                selected_As_Usual = as_Usuals.get(selected_item_index);
+                selected_as_usual_name = selected_As_Usual.getName();
+                edit.setText(selected_as_usual_name);
+            }
+        }
+
         return view;
     }
 
@@ -205,4 +215,9 @@ public class As_Usual_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Bundle_Variables.AS_USUAL_FRAGMENT_SELECT_PRODUCT_INDEX, selected_item_index);
+    }
 }

@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Profile_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Bundle_Variables;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.User_Information;
@@ -129,6 +130,15 @@ public class Profile_Fragment extends Fragment {
         });
 
 
+        if(savedInstanceState != null){
+            selected_item_index = savedInstanceState.getInt(Bundle_Variables.USER_INFORMATION_ITEM_INDEX);
+            if(selected_item_index != -1){
+                selected_field_User_Information = userInformation.get(selected_item_index);
+                selected_User_Information_Value = selected_field_User_Information.getValue();
+                edit.setText(selected_User_Information_Value);
+            }
+        }
+
         return view;
     }
 
@@ -174,5 +184,11 @@ public class Profile_Fragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Bundle_Variables.NEWS_FRAGMENT_SELECT_PRODUCT_INDEX, selected_item_index);
     }
 }

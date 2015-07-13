@@ -15,9 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.user.finalproject.Activities.Basket_Activity;
 import com.example.user.finalproject.Activities.Detailed_News;
 import com.example.user.finalproject.Adapters.News_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Bundle_Variables;
 import com.example.user.finalproject.Intent_Variables.Intent_Variables;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.database.DBHelper;
@@ -92,6 +92,15 @@ public class News_Fragment extends Fragment {
             }
         });
 
+        if(savedInstanceState != null){
+            selected_item_index = savedInstanceState.getInt(Bundle_Variables.NEWS_FRAGMENT_SELECT_PRODUCT_INDEX);
+            if(selected_item_index != -1) {
+                selected_news = news.get(selected_item_index);
+
+                TextView temp = (TextView) view.findViewById(R.id.chosen_news_name);
+                temp.setText("მონიშნული პროდუქტი: " + selected_news.getName());
+            }
+        }
 
         return view;
     }
@@ -101,5 +110,11 @@ public class News_Fragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Bundle_Variables.NEWS_FRAGMENT_SELECT_PRODUCT_INDEX, selected_item_index);
     }
 }

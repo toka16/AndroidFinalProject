@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Bundle_Variables;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
@@ -93,7 +94,21 @@ public class Basket_Activity extends ActionBarActivity {
             }
         });
 
+        if(savedInstanceState != null){
+            selected_item_index = savedInstanceState.getInt(Bundle_Variables.BASKET_SELECT_ITEM_INDEX);
+            if(selected_item_index != -1){
+                selected_Product = products.get(selected_item_index);
+                TextView choosen_product_field = (TextView) findViewById(R.id.chosen_text_basket);
+                choosen_product_field.setText("მონიშნული პროდუქტი: " + products.get(selected_item_index).getName());
+            }
+        }
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putInt(Bundle_Variables.BASKET_SELECT_ITEM_INDEX, selected_item_index);
     }
 
 

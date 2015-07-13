@@ -238,10 +238,16 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // The method adds news into database.
-    public void insertNews(News news) throws ParseException {
+    public void insertNews(News news) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date fromDate = dateFormat.parse(news.getFromDate());
-        Date toDate = dateFormat.parse(news.getToDate());
+        Date fromDate = null;
+        Date toDate = null;
+        try {
+            fromDate = dateFormat.parse(news.getFromDate());
+            toDate = dateFormat.parse(news.getToDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         ContentValues values = new ContentValues();
         values.put(DBTableEntries.NEWS_NAME, news.getName());

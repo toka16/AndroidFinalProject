@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.example.user.finalproject.Activities.Basket_Activity;
 import com.example.user.finalproject.Activities.Categories_List_Activity;
-import com.example.user.finalproject.Activities.Deletable_Product_List_Activity;
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
+import com.example.user.finalproject.Intent_Variables.Bundle_Variables;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.As_Usual;
@@ -27,7 +27,6 @@ import com.example.user.finalproject.model.Menu;
 import com.example.user.finalproject.model.News;
 import com.example.user.finalproject.model.Product;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Product_Fragment extends Fragment {
@@ -53,8 +52,6 @@ public class Product_Fragment extends Fragment {
         selected_item_index = -1;
         ListView productsListView = (ListView)view.findViewById(R.id.list_view_for_products);
         inf = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
 
         productsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -131,6 +128,17 @@ public class Product_Fragment extends Fragment {
         });
 
 
+        if(savedInstanceState != null){
+            selected_item_index = savedInstanceState.getInt(Bundle_Variables.PRODUCT_FRAGMENT_SELECT_PRODUCT_INDEX);
+            if(selected_item_index != -1) {
+                selected_product = products.get(selected_item_index);
+
+                TextView temp = (TextView) view.findViewById(R.id.chosen_product_text);
+                temp.setText("მონიშნული პროდუქტი: " + selected_product.getName());
+            }
+        }
+
+
         return view;
     }
 
@@ -168,13 +176,9 @@ public class Product_Fragment extends Fragment {
         news.setFromDate("2012-05-07");
         news.setToDate("2016-05-07");
 
-        try {
-            bla.insertNews(news);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        bla.insertNews(news);
 
-        As_Usual as_usual = new As_Usual("am wams damatebuli");
+        As_Usual as_usual = new As_Usual("am wams damatebulia eseni");
         as_usual.getProducts().add(temp);
         as_usual.getProducts().add(temp2);
         as_usual.getProducts().add(temp3);
@@ -186,5 +190,11 @@ public class Product_Fragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Bundle_Variables.PRODUCT_FRAGMENT_SELECT_PRODUCT_INDEX, selected_item_index);
     }
 }
