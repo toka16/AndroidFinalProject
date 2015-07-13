@@ -11,6 +11,25 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/email_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
+            android:inputType = "text"
+            android:hint="@string/email_field"
+            />
+
+        <EditText
+            android:id="@+id/password_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
+            android:inputType = "text"
+            android:hint="@string/password_field"
+            />
+
         <EditText
             android:id="@+id/name_field"
             android:layout_width="match_parent"
@@ -30,7 +49,7 @@
             />
 
         <EditText
-            android:id="@+id/private_number_field"
+            android:id="@+id/primary_number_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
@@ -47,14 +66,6 @@
             android:hint="@string/mobile_field"
             />
 
-        <EditText
-            android:id="@+id/email_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/Margin_From_Edit_Text"
-            android:inputType = "text"
-            android:hint="@string/email_field"
-            />
 
         <EditText
             android:id="@+id/card_number_field"
@@ -78,6 +89,10 @@
 
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/register_status"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 
 

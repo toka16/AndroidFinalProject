@@ -44,10 +44,18 @@ public class ServerHelper {
     private ServerHelper(String cookie){
         COOKIE = cookie;
     }
+    private ServerHelper(){}
 
     public static ServerHelper getInstance(String cookie){
         if(helper == null)
             helper = new ServerHelper(cookie);
+
+        return helper;
+    }
+
+    public static ServerHelper getInstance(){
+        if(helper == null)
+            helper = new ServerHelper();
 
         return helper;
     }
@@ -76,7 +84,7 @@ public class ServerHelper {
             int res = task.get();
             if (res == 200) {
                 return ServerResponse.OK;
-            } else if (res == 206) {
+            } else if (res == 406) {
                 return ServerResponse.INVALID_USERNAME_OR_PASSWORD;
             }
         } catch (InterruptedException e) {
@@ -120,8 +128,8 @@ public class ServerHelper {
             int res = task.get();
             if (res == 200) {
                 return ServerResponse.OK;
-            } else if (res == 206) {
-                return ServerResponse.INVALID_USERNAME_OR_PASSWORD;
+            } else if (res == 409) {
+                return ServerResponse.BAD_REQUEST;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

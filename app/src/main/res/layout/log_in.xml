@@ -51,6 +51,10 @@
             />
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/login_status"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 
 
