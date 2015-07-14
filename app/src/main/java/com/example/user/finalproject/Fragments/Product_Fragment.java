@@ -73,7 +73,7 @@ public class Product_Fragment extends Fragment {
 
         DBHelper bla =  DBHelper.getInstance(inf.getContext());
 
-        insertElements();
+//        insertElements();
 
         products = (ArrayList) bla.allProducts();
         Product_Tab_Adapter adapter = new Product_Tab_Adapter(inf.getContext(),products);

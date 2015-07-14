@@ -48,8 +48,6 @@ public class Menu_Fragment extends Fragment {
         ListView menusListView = (ListView)view.findViewById(R.id.menu_list_view);
         inf = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-
-
         menusListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
@@ -93,6 +91,7 @@ public class Menu_Fragment extends Fragment {
                 Intent intent = new Intent(getActivity(),Menu_Products_Activity.class);
                 intent.putExtra(Intent_Variables.menu_ID_Fof_Intent,selected_menu.getDb_ID());
                 intent.putExtra(Intent_Variables.menu_Name_For_Intent,selected_menu.getName());
+                intent.putExtra(Intent_Variables.menu_Price_For_Intent, selected_menu.getPrice());
                 startActivity(intent);
             }
         });

@@ -9,6 +9,7 @@ public class DBTableEntries  {
     public static final String PRODUCT_PRICE = "product_price";
     public static final String PRODUCT_IMAGE = "product_image";
     public static final String PRODUCT_SERVER_ID = "product_server_id";
+    public static final String PRODUCT_IMAGE_LINK = "product_image_link";
 
     public static final String CATEGORY_TABLE_NAME = "Categories";
     public static final String CATEGORY_ID = "category_id";
@@ -35,6 +36,7 @@ public class DBTableEntries  {
     public static final String MENU_PRICE = "menu_price";
     public static final String MENU_IMAGE = "menu_image";
     public static final String MENU_SERVER_ID = "menu_server_id";
+    public static final String MENU_IMAGE_LINK = "menu_image_link";
 
     public static final String MAP_MENU_PRODUCT_TABLE_NAME = "MapMenuProduct";
     public static final String MAP_MENU_TABLE_ID = "menu_id";

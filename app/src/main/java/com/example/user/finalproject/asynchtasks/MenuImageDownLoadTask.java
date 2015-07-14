@@ -2,6 +2,7 @@ package com.example.user.finalproject.asynchtasks;
 
 import android.os.AsyncTask;
 
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Menu;
 
 import java.io.ByteArrayOutputStream;
@@ -26,9 +27,12 @@ public class MenuImageDownLoadTask extends AsyncTask<Void, Void, ArrayList<Menu>
     protected ArrayList<Menu> doInBackground(Void... params) {
         for(int i = 0; i < menus.size(); i++){
             Menu menu = menus.get(i);
-            String imageURL = menu.getImage_link();
-            byte[] image = downloadImage(imageURL);
-            menu.setMenuImage(image);
+            if(menu.getMenuImage() == null && menu.getImage_link() != null) {
+                String imageURL = menu.getImage_link();
+                byte[] image = downloadImage(imageURL);
+                menu.setMenuImage(image);
+                DBHelper.getInstance(null).updateMenuImage(menu.getDb_ID(), image);
+            }
         }
 
         return menus;

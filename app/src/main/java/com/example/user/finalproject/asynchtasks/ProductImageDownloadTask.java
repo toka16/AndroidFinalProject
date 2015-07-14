@@ -2,6 +2,7 @@ package com.example.user.finalproject.asynchtasks;
 
 import android.os.AsyncTask;
 
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
 
 import java.io.ByteArrayOutputStream;
@@ -23,11 +24,18 @@ public class ProductImageDownloadTask extends AsyncTask<Void, Void, ArrayList<Pr
 
     @Override
     protected ArrayList<Product> doInBackground(Void... params) {
+        System.out.println("products background: "+products.size());
         for (int i = 0; i < products.size(); i++){
             Product product = products.get(i);
-            String imageURL = product.getImage_link();
-            byte[] image = downloadImage(imageURL);
-            product.setProductImage(image);
+            System.out.println("product: "+product.getImage_link());
+            if(product.getProductImage() == null && product.getImage_link() != null) {
+                System.out.println("downloading product image: "+product.getImage_link());
+                String imageURL = product.getImage_link();
+                byte[] image = downloadImage(imageURL);
+                product.setProductImage(image);
+                System.out.println("downloaded image: "+image);
+                DBHelper.getInstance(null).updateProductImage(product.getDb_ID(), image);
+            }
         }
         return products;
     }
@@ -73,8 +81,4 @@ public class ProductImageDownloadTask extends AsyncTask<Void, Void, ArrayList<Pr
         return bos.toByteArray();
     }
 
-    @Override
-    protected  void onPostExecute(ArrayList<Product> productArrayList){
-
-    }
 }

@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
             DBTableEntries.PRODUCT_PRICE + " DOUBLE," +
             DBTableEntries.PRODUCT_IMAGE + " BLOB," +
             DBTableEntries.PRODUCT_SERVER_ID + " INT," +
+            DBTableEntries.PRODUCT_IMAGE_LINK + " text," +
             "CONSTRAINT product_unique_const UNIQUE (" + DBTableEntries.PRODUCT_NAME + "," + DBTableEntries.PRODUCT_DESCRIPTION + ")"
         + " )";
 
@@ -67,6 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
             DBTableEntries.MENU_PRICE + " DOUBLE," +
             DBTableEntries.MENU_IMAGE + " BLOB," +
             DBTableEntries.MENU_SERVER_ID + " INT," +
+            DBTableEntries.MENU_IMAGE_LINK + " TEXT," +
             "CONSTRAINT menu_unique_const UNIQUE (" + DBTableEntries.MENU_NAME + "," + DBTableEntries.MENU_DESCRIPTION + ")"
         + " )";
 
@@ -115,6 +117,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private DBHelper(Context context) {
         super(context, NAME, null, VERSION);
+
         db = getWritableDatabase();
     }
 
@@ -163,6 +166,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(deleteQuery);
     }
 
+
+
     // public methods:
 
     // The method inserts user fields into database.
@@ -181,6 +186,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DBTableEntries.PRODUCT_DESCRIPTION, product.getDescription());
         values.put(DBTableEntries.PRODUCT_PRICE, product.getPrice());
         values.put(DBTableEntries.PRODUCT_SERVER_ID, product.getServer_ID());
+        values.put(DBTableEntries.PRODUCT_IMAGE_LINK, product.getImage_link());
         long productID = db.insert(DBTableEntries.PRODUCT_TABLE_NAME, null, values);
         product.setDb_ID(productID);
     }
@@ -217,6 +223,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DBTableEntries.MENU_PRICE, menu.getPrice());
         values.put(DBTableEntries.MENU_IMAGE, menu.getMenuImage());
         values.put(DBTableEntries.MENU_SERVER_ID, menu.getServer_ID());
+        values.put(DBTableEntries.MENU_IMAGE_LINK, menu.getImage_link());
 
         long menuID = db.insert(DBTableEntries.MENU_TABLE_NAME, null, values);
         menu.setDb_ID(menuID);
@@ -347,7 +354,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<Product> getCategoryProducts(long categoryID){
         String selectProducts = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
                 DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
-                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
+                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID + ", " + DBTableEntries.PRODUCT_IMAGE_LINK +
                 " from " + DBTableEntries.PRODUCT_TABLE_NAME +
                 " inner join " + DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME +
                 " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.MAP_PRODUCT_ID +
@@ -374,7 +381,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
         String selectQuery = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
                 DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
-                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
+                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID + ", " + DBTableEntries.PRODUCT_IMAGE_LINK +
                 " from " + DBTableEntries.PRODUCT_TABLE_NAME +
                 " inner join " + DBTableEntries.BASKET_TABLE_NAME +
                 " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.BASKET_PRODUCT_ID;
@@ -386,6 +393,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return products;
     }
 
+
+    public ArrayList<Product> getProductsByServerIDs(int[] ids){
+        ArrayList<Product> products = new ArrayList<>();
+
+        for(int i = 0; i < ids.length; i++){
+            String selectQuery = "select * from " + DBTableEntries.PRODUCT_TABLE_NAME +
+                    " where " + DBTableEntries.PRODUCT_SERVER_ID + "=" + ids[i];
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            processProductCursor(cursor, products);
+
+        }
+        return products;
+    }
 
     public ArrayList<As_Usual> allAsUsual(){
         ArrayList<As_Usual> asUsualArrayList = new ArrayList<>();
@@ -417,7 +438,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
         String selectQuery = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
                 DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
-                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
+                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID + ", " + DBTableEntries.PRODUCT_IMAGE_LINK +
                 " from " + DBTableEntries.PRODUCT_TABLE_NAME +
                 " inner join " + DBTableEntries.MAP_AS_USUAL_PRODUCT_TABLE_NAME +
                 " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.MAP_AS_USUAL_PRODUCT_PRODUCT_ID +
@@ -490,6 +511,7 @@ public class DBHelper extends SQLiteOpenHelper {
         int priceIndex = cursor.getColumnIndexOrThrow(DBTableEntries.MENU_PRICE);
         int imageIndex = cursor.getColumnIndexOrThrow(DBTableEntries.MENU_IMAGE);
         int serverIDIndex = cursor.getColumnIndexOrThrow(DBTableEntries.MENU_SERVER_ID);
+        int menuImageIndex = cursor.getColumnIndexOrThrow(DBTableEntries.MENU_IMAGE_LINK);
 
         while(cursor.moveToNext()){
             long id = cursor.getLong(idIndex);
@@ -498,6 +520,7 @@ public class DBHelper extends SQLiteOpenHelper {
             double price = cursor.getDouble(priceIndex);
             byte[] image = cursor.getBlob(imageIndex);
             int serverID = cursor.getInt(serverIDIndex);
+            String imageLink = cursor.getString(menuImageIndex);
 
             Menu menu = new Menu();
             menu.setDb_ID(id);
@@ -506,6 +529,7 @@ public class DBHelper extends SQLiteOpenHelper {
             menu.setPrice(price);
             menu.setMenuImage(image);
             menu.setServer_ID(serverID);
+            menu.setImage_link(imageLink);
 
             ArrayList<Product> products = getMenuProducts(id);
             menu.setProducts(products);
@@ -521,7 +545,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<Product> getMenuProducts(long menuID){
         String selectMenuProductQuery = "select " + DBTableEntries.PRODUCT_ID + ", " + DBTableEntries.PRODUCT_NAME + ", " +
                 DBTableEntries.PRODUCT_DESCRIPTION + ", " + DBTableEntries.PRODUCT_PRICE + ", " +
-                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID +
+                DBTableEntries.PRODUCT_IMAGE + ", " + DBTableEntries.PRODUCT_SERVER_ID + ", " + DBTableEntries.PRODUCT_IMAGE_LINK +
                 " from " + DBTableEntries.PRODUCT_TABLE_NAME +
                 " inner join " + DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME +
                 " on " + DBTableEntries.PRODUCT_ID + " = " + DBTableEntries.MAP_MENU_TABLE_PRODUCT_ID +
@@ -535,8 +559,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // The method returns a list with all products.
-    public List<Product> allProducts(){
-        List<Product> productList = new ArrayList<>();
+    public ArrayList<Product> allProducts(){
+        ArrayList<Product> productList = new ArrayList<>();
         String selectQuery = "select * from " + DBTableEntries.PRODUCT_TABLE_NAME;
         Cursor cursor = db.rawQuery(selectQuery, null);
         processProductCursor(cursor, productList);
@@ -552,6 +576,7 @@ public class DBHelper extends SQLiteOpenHelper {
         int priceIndex = cursor.getColumnIndexOrThrow(DBTableEntries.PRODUCT_PRICE);
         int imageIndex = cursor.getColumnIndexOrThrow(DBTableEntries.PRODUCT_IMAGE);
         int serverDBIDIndex = cursor.getColumnIndexOrThrow(DBTableEntries.PRODUCT_SERVER_ID);
+        int imageLinkIndex = cursor.getColumnIndexOrThrow(DBTableEntries.PRODUCT_IMAGE_LINK);
 
         while(cursor.moveToNext()){
             long id = cursor.getLong(localDBIDIndex);
@@ -560,14 +585,48 @@ public class DBHelper extends SQLiteOpenHelper {
             double price = cursor.getDouble(priceIndex);
             byte[] image = cursor.getBlob(imageIndex);
             int serverID = cursor.getInt(serverDBIDIndex);
+            String imageLink = cursor.getString(imageLinkIndex);
 
             Product product = new Product(productName, description);
             product.setDb_ID(id);
             product.setPrice(price);
             product.setProductImage(image);
             product.setServer_ID(serverID);
+            product.setImage_link(imageLink);
 
             productList.add(product);
+        }
+    }
+
+    public void updateProductImage(long productID, byte[] image){
+        String selectImageQuery = "select " + DBTableEntries.PRODUCT_IMAGE + " from " + DBTableEntries.PRODUCT_TABLE_NAME +
+                                " where " + DBTableEntries.PRODUCT_ID + "=" + productID;
+
+        Cursor cursor = db.rawQuery(selectImageQuery, null);
+        cursor.moveToFirst();
+        int imageIndex = cursor.getColumnIndexOrThrow(DBTableEntries.PRODUCT_IMAGE);
+        byte[] imageFromBase = cursor.getBlob(imageIndex);
+        if(imageFromBase == null){
+            ContentValues values = new ContentValues();
+            values.put(DBTableEntries.PRODUCT_IMAGE, image);
+
+            db.update(DBTableEntries.PRODUCT_TABLE_NAME, values, DBTableEntries.PRODUCT_ID + "=" + productID, null);
+        }
+    }
+
+    public void updateMenuImage(long menuID, byte[] image){
+        String selectMenuImage = "select " + DBTableEntries.MENU_IMAGE + " from " + DBTableEntries.MENU_TABLE_NAME +
+                                    " where " + DBTableEntries.MENU_ID + "=" + menuID;
+
+        Cursor cursor = db.rawQuery(selectMenuImage, null);
+        cursor.moveToFirst();
+        int imageIndex = cursor.getColumnIndexOrThrow(DBTableEntries.MENU_IMAGE);
+        byte[] imageFromBase = cursor.getBlob(imageIndex);
+        if(imageFromBase == null){
+            ContentValues value = new ContentValues();
+            value.put(DBTableEntries.MENU_IMAGE, image);
+
+            db.update(DBTableEntries.MENU_TABLE_NAME, value, DBTableEntries.MENU_ID + "=" + menuID, null);
         }
     }
 
@@ -645,5 +704,29 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void basketRemoveProduct(long productID){
         db.delete(DBTableEntries.BASKET_TABLE_NAME, DBTableEntries.BASKET_PRODUCT_ID + "=" + productID, null);
+    }
+
+    public void cleanProducts(){
+        db.delete(DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME, null, null);
+
+        db.delete(DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME, null, null);
+
+        db.delete(DBTableEntries.PRODUCT_TABLE_NAME, null, null);
+    }
+
+    public void cleanCategories(){
+        db.delete(DBTableEntries.MAP_CATEGORY_PRODUCT_TABLE_NAME, null, null);
+
+        db.delete(DBTableEntries.CATEGORY_TABLE_NAME, null, null);
+    }
+
+    public void cleanMenus(){
+        db.delete(DBTableEntries.MAP_MENU_PRODUCT_TABLE_NAME, null, null);
+
+        db.delete(DBTableEntries.MENU_TABLE_NAME, null, null);
+    }
+
+    public void cleanNews(){
+        db.delete(DBTableEntries.NEWS_TABLE_NAME, null, null);
     }
 }

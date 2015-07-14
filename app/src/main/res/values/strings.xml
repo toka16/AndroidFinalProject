@@ -54,11 +54,12 @@
 
     <string name="name_field">Enter your name . . .</string>
     <string name="last_name_field">Enter your last name . . .</string>
-    <string name="private_number_field">Enter your phone number . . .</string>
+    <string name="private_number_field">Enter your primary number . . .</string>
     <string name="mobile_field">Enter your mobile . . .</string>
     <string name="email_field">Enter your email . . .</string>
     <string name="card_number_field">Enter your card number . . .</string>
     <string name="registration_button">Registration</string>
 
     <string name="loaded_items">მიმდინარეობს ჩამოტვირთვა . . .</string>
+    <string name="total_price_title">Total Price:</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.user.finalproject.Server;
 
 import android.os.AsyncTask;
 
+import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Category;
 import com.example.user.finalproject.model.Menu;
 import com.example.user.finalproject.model.News;
@@ -257,7 +258,7 @@ public class ServerHelper {
         category.setServer_ID(obj.optInt("id"));
         category.setName(obj.optString("name"));
         int[] ids = parseIntArray(obj.optJSONArray("products"));
-        //category.setProducts(db.getProducts(ids));
+        category.setProducts(DBHelper.getInstance(null).getProductsByServerIDs(ids));
 
         return category;
     }
@@ -298,8 +299,13 @@ public class ServerHelper {
         menu.setName(obj.optString("name"));
         menu.setDescription(obj.optString("description"));
         menu.setPrice(obj.optDouble("price"));
+        menu.setImage_link(obj.optString("image_link"));
         int[] ids = parseIntArray(obj.optJSONArray("products"));
-//      menu.setProducts(db.getProducts(ids));
+        menu.setProducts(DBHelper.getInstance(null).getProductsByServerIDs(ids));
+        System.out.println("new menu: "+menu.getName());
+        for(int i : ids){
+            System.out.println("product id: "+i);
+        }
         return menu;
     }
 
@@ -319,6 +325,8 @@ public class ServerHelper {
         product.setName(obj.optString("name"));
         product.setDescription(obj.optString("description"));
         product.setPrice(obj.optDouble("price"));
+        product.setImage_link(obj.optString("image_link"));
+        System.out.println("downloaded product image link: "+product.getImage_link());
         return product;
     }
 

@@ -1,16 +1,21 @@
 package com.example.user.finalproject.Activities;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.user.finalproject.App;
 import com.example.user.finalproject.MainActivity;
 import com.example.user.finalproject.R;
 import com.example.user.finalproject.Server.ServerHelper;
+import com.example.user.finalproject.database.DBHelper;
+import com.example.user.finalproject.model.User_Information;
 
 public class Sign_Up_Activity extends ActionBarActivity {
 
@@ -20,6 +25,14 @@ public class Sign_Up_Activity extends ActionBarActivity {
         setContentView(R.layout.sign_up);
 
         findViewById(R.id.registration_button).setOnClickListener(new View.OnClickListener() {
+
+            private void insertUserInfo(String row, String value){
+                User_Information info = new User_Information();
+                info.setRowName(row);
+                info.setValue(value);
+                DBHelper.getInstance(Sign_Up_Activity.this).insertUserInformation(info);
+            }
+
             @Override
             public void onClick(View v) {
                 String email = ((EditText)findViewById(R.id.email_field)).getText().toString();
@@ -43,6 +56,19 @@ public class Sign_Up_Activity extends ActionBarActivity {
                     if(response == ServerHelper.ServerResponse.BAD_REQUEST){
                         ((TextView)findViewById(R.id.register_status)).setText("Email already in use");
                     }else if(response == ServerHelper.ServerResponse.OK){
+                        String newCookie = ServerHelper.getInstance().getCookie();
+                        SharedPreferences pref = getSharedPreferences(App.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString(SpinnerActivity.SHARED_PREFERENCES_COOKIE, newCookie);
+                        editor.commit();
+
+                        insertUserInfo("Email", email);
+                        insertUserInfo("Name", first_name);
+                        insertUserInfo("Last Name", last_name);
+                        insertUserInfo("Private Number", primary_number);
+                        insertUserInfo("Mobile", mobile_number);
+                        insertUserInfo("Card Number", card_number);
+
                         Intent intent = new Intent(Sign_Up_Activity.this, SpinnerActivity.class);
                         Sign_Up_Activity.this.startActivity(intent);
                     }else{

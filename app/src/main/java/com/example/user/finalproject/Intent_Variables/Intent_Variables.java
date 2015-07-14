@@ -17,4 +17,5 @@ public interface Intent_Variables {
     public String as_Usual_Name_For_Intent = "as_usual_Name";
     public String menu_Name_For_Intent = "menu_Name";
 
+    public String menu_Price_For_Intent = "menu_price";
 }

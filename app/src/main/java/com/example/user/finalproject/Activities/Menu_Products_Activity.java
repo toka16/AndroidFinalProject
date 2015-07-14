@@ -49,6 +49,8 @@ public class Menu_Products_Activity extends ActionBarActivity {
         adapter.notifyDataSetChanged();
         productsListView.setAdapter(adapter);
 
+        double price = intent.getDoubleExtra(Intent_Variables.menu_Price_For_Intent, 0);
+        ((TextView)findViewById(R.id.menu_total_price)).setText(price+" $");
 
         TextView bla = (TextView) findViewById(R.id.menu_activity_header);
         bla.setText(bla.getText() + intent.getStringExtra(Intent_Variables.menu_Name_For_Intent));

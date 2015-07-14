@@ -18,21 +18,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 
-public class App extends Application{
+public class App{
     public static final String SHARED_PREFERENCES_NAME = "final_project_shared_preferences";
-    private static final String SHARED_PREFERENCES_COOKIE = "cookie";
+//    private static final String SHARED_PREFERENCES_COOKIE = "cookie";
 
-    @Override
-    public void onCreate(){
-        super.onCreate();
-
-        SharedPreferences pref = getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String cookie = pref.getString(SHARED_PREFERENCES_COOKIE, "");
-        final ServerHelper helper = ServerHelper.getInstance(cookie);
-        if(cookie.equals("")) {
-            Intent intent = new Intent(this, Log_in_Activity.class);
-            startActivity(intent);
-        }
-
-    }
 }

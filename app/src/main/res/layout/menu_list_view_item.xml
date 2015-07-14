@@ -17,6 +17,13 @@
         android:src = "@drawable/defaulti"
         />
 
+
+    <TextView
+        android:id="@+id/menu_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
     <TextView
         android:id="@+id/menu_text"
         android:layout_margin="@dimen/contact_list_item_from_image"

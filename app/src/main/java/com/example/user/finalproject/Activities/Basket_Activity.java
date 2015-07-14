@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.user.finalproject.Adapters.Product_Tab_Adapter;
 import com.example.user.finalproject.Intent_Variables.Bundle_Variables;
 import com.example.user.finalproject.R;
+import com.example.user.finalproject.Server.ServerHelper;
 import com.example.user.finalproject.database.DBHelper;
 import com.example.user.finalproject.model.Product;
 
@@ -42,6 +43,12 @@ public class Basket_Activity extends ActionBarActivity {
 
 
         products = DBHelper.getInstance(getApplicationContext()).getBasketProducts();
+
+        double totalPrice = 0;
+        for(Product p : products)
+            totalPrice += p.getPrice();
+
+        ((TextView)findViewById(R.id.basket_total_price)).setText(totalPrice+" $");
 
         adapter = new Product_Tab_Adapter(this,products);
         adapter.notifyDataSetChanged();
@@ -88,9 +95,10 @@ public class Basket_Activity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                // tokas es aris shekvetis button
-
-                // shekvetas ro gaaketeb basketis tabledan yvelaferi washale
+                ServerHelper.getInstance().makeOrder(products);
+                DBHelper.getInstance(Basket_Activity.this).removeBasket();
+                products.clear();
+                adapter.notifyDataSetChanged();
             }
         });
 

@@ -93,8 +93,9 @@ public class Category_Products_Activity extends ActionBarActivity {
                 }
 
                 // basketshi chavamatot monishnuli product
+                DBHelper.getInstance(Category_Products_Activity.this).insertNewProductIntoBasket(selected_Product.getDb_ID());
                 Toast toast;
-                toast = Toast.makeText(getApplicationContext(), "cahavamate basketshi", Toast.LENGTH_LONG);
+                toast = Toast.makeText(getApplicationContext(), "ჩავამატე კალათაში :)", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
                 toast.show();
             }
