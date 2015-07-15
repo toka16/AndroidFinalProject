@@ -60,6 +60,8 @@ public class Sign_Up_Activity extends ActionBarActivity {
                         SharedPreferences pref = getSharedPreferences(App.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString(SpinnerActivity.SHARED_PREFERENCES_COOKIE, newCookie);
+                        editor.putString(SpinnerActivity.SHARED_PREFERENCES_EMAIL, email);
+                        editor.putString(SpinnerActivity.SHARED_PREFERENCES_PASSWORD, password);
                         editor.commit();
 
                         insertUserInfo("Email", email);
